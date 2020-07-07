@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.base.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.controls.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.fxml.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.graphics.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.media.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.swing.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx.web.jar"/>
+	<classpathentry kind="lib" path="F:/nhapmontrituenhantao/Project_Caro/lib/javafx-swt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
