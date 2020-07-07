@@ -16,4 +16,5 @@ public class ConfigGame {
 	public enum Status{X_WIN_GAME,X_LOSE_GAME,O_WIN_GAME,O_LOSE_GAME, NOT_OVER, STALEMATE};
 	public enum StatusMinimax{WIN_GAME, LOSE_GAME, NOT_OVER, STALEMATE};
 	public static Map<Target, Integer> values= Stream.of(new Object[][] {{Target.O,2},{Target.X,1}}).collect(Collectors.toMap(data->(Target)data[0], data->(Integer)data[1]));
+
 }

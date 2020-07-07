@@ -3,6 +3,7 @@ package Model;
 import java.util.Random;
 
 import project.caro.config.ConfigGame;
+import project.caro.config.ConfigGame.Target;
 
 public class Board {
 	/*
@@ -20,14 +21,20 @@ public class Board {
 		}
 	}
 
-	public boolean isValid(int rows, int cols) {
+	public boolean isValid(int rowIndex, int colIndex) {
+		if(rowIndex>=this.matrix.length||colIndex>=this.matrix[0].length) {
+			return false;
+		}
+		if (this.matrix[rowIndex][colIndex]==-1) {
+			return true;
+		}else
 		return false;
 	}
 
-	public Board move(int rows, int cols, int target) {
+	public Board move(int rows, int cols, ConfigGame.Target target) {
 		Board boardClone = this.clone();
-		if (boardClone.matrix[rows][cols] == -1) {
-			boardClone.matrix[rows][cols] = target;
+		if (boardClone.matrix[rows][cols] == ConfigGame.Target.NOT_THING.VALUE) {
+			boardClone.matrix[rows][cols] = target.VALUE;
 			return boardClone;
 		}
 		return null;
@@ -201,6 +208,70 @@ public class Board {
 			}
 		}
 		return -1;
+	}
+	public ConfigGame.Status getCurrentStatus(ConfigGame.Target target){
+		int numX= check(ConfigGame.Target.X.VALUE);
+		int numO= check(ConfigGame.Target.O.VALUE);
+		boolean stalemate=true;
+		LoopOne:
+		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {
+			for (int col_Index = 0; col_Index < matrix[row_Index].length; col_Index++) {
+				if(matrix[row_Index][col_Index]==ConfigGame.Target.NOT_THING.VALUE) {
+					stalemate=false;
+					break LoopOne;
+				}
+			}
+		}
+		if(stalemate) {
+			return ConfigGame.Status.STALEMATE;
+		}
+		switch (target) {
+		case X:
+			if(numX!=-1) return ConfigGame.Status.X_WIN_GAME;
+			if(numO!=-1) return ConfigGame.Status.X_LOSE_GAME;
+			break;
+		case O:
+			if(numX!=-1) return ConfigGame.Status.O_LOSE_GAME;
+			if(numO!=-1) return ConfigGame.Status.O_WIN_GAME;
+			break;
+
+		default:
+			break;
+		}
+		
+		return ConfigGame.Status.NOT_OVER;
+	}
+	public ConfigGame.StatusMinimax getCurrentStatusMinimax(ConfigGame.Target target){
+		int numX= check(ConfigGame.Target.X.VALUE);
+		int numO= check(ConfigGame.Target.O.VALUE);
+		boolean stalemate=true;
+		LoopOne:
+		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {
+			for (int col_Index = 0; col_Index < matrix[row_Index].length; col_Index++) {
+				if(matrix[row_Index][col_Index]==ConfigGame.Target.NOT_THING.VALUE) {
+					stalemate=false;
+					break LoopOne;
+				}
+			}
+		}
+		if(stalemate) {
+			return ConfigGame.StatusMinimax.STALEMATE;
+		}
+		switch (target) {
+		case X:
+			if(numX!=-1) return ConfigGame.StatusMinimax.WIN_GAME;
+			if(numO!=-1) return ConfigGame.StatusMinimax.LOSE_GAME;
+			break;
+		case O:
+			if(numX!=-1) return ConfigGame.StatusMinimax.LOSE_GAME;
+			if(numO!=-1) return ConfigGame.StatusMinimax.WIN_GAME;
+			break;
+
+		default:
+			break;
+		}
+		
+		return ConfigGame.StatusMinimax.NOT_OVER;
 	}
 
 }
