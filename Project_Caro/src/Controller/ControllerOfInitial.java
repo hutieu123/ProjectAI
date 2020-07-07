@@ -27,11 +27,11 @@ public class ControllerOfInitial {
 			c.setSubSceneBoard(subSceneBoard);
 			
 			//Add listenerMouseClick For One People Again Agent
-			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
-			c.setNode(initial);
-			c.addListenerMouseClickForOnePeople();
+//			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
+//			c.setNode(initial);
+//			c.addListenerMouseClickForOnePeople();
 			
-//			c.addListenerMouseClickForTwoPeople();
+			c.addListenerMouseClickForTwoPeople();
 			
 			Scene scene = new Scene(root);
 			primaryStage.hide();
