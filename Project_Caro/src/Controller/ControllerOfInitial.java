@@ -32,6 +32,8 @@ public class ControllerOfInitial {
 	public void exit(ActionEvent actionEvent) {
 		Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 		primaryStage.close();
+//		Platform.exit();
+//		System.exit(0);
 
 	}
 
