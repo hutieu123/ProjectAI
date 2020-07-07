@@ -2,21 +2,14 @@ package Model;
 
 import java.util.List;
 
-public class Agent {
-	Node node;
+import project.caro.config.ConfigGame;
 
-	public Node findBestMove() {
-		return null;
-	}
 
-	public List<Node> MinMax() {
-		return null;
-	}
+public interface Agent {
+	public int[] findBestMove(Board board, ConfigGame.Target target, int depth);
 
-	public static void AlphaBeta() {
+	public List<Node> MinMax() ;
 
-	}
-	public int heuristic() {
-		return 0;
-	}
+	public void AlphaBeta();
+	public int heuristic();
 }
