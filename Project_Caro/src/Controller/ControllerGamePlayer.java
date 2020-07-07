@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import minimax.Node;
+import project.caro.config.ConfigGame;
 
 public class ControllerGamePlayer implements Initializable {
 	@FXML
@@ -43,6 +44,26 @@ public class ControllerGamePlayer implements Initializable {
 							public void run() {
 								int time = Integer.parseInt(ControllerGamePlayer.this.clock.getText());
 								ControllerGamePlayer.this.clock.setText("" + --time);
+								if(time==0) {
+									ControllerGamePlayer.this.clockRunnging=false;
+									System.out.println("Time Out.");
+									ConfigGame.Target target =ControllerGamePlayer.this.subSceneBoard.getTurn();
+									switch (target) {
+									case X:
+										String strX="X Lose.";
+										System.out.println(strX);
+										ControllerGamePlayer.this.clock.setText(strX);
+										break;
+									case O:
+										String strO="O Lose.";
+										System.out.println(strO);
+										ControllerGamePlayer.this.clock.setText(strO);
+										break;
+
+									default:
+										break;
+									}
+								}
 							}
 						});
 

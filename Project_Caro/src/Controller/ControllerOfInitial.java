@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import minimax.Minimax;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
@@ -19,14 +20,19 @@ public class ControllerOfInitial {
 			loader.setLocation(getClass().getResource("../View/sceneOfGamePlay.fxml"));
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(ConfigGame.NUMBER_ROWS, ConfigGame.NUMBER_COLS));
+			//Set Agent
+			subSceneBoard.setAgent(new Minimax());
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
+			
 			//Add listenerMouseClick For One People Again Agent
-//			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
-//			c.setNode(initial);
-//			c.addListenerMouseClickForOnePeople();
-			c.addListenerMouseClickForTwoPeople();
+			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
+			c.setNode(initial);
+			c.addListenerMouseClickForOnePeople();
+			
+//			c.addListenerMouseClickForTwoPeople();
+			
 			Scene scene = new Scene(root);
 			primaryStage.hide();
 			primaryStage.setScene(scene);

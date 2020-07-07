@@ -77,8 +77,9 @@ public class SubSceneBoard {
 				double y = e.getSceneY() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTy();
 				int row_index = (int) (y / ConfigGame.DRAW);
 				int col_index = (int) (x / ConfigGame.DRAW);
-				//System.out.println(col_index + ":" +row_index);
+//				System.out.println(col_index + ":" +row_index);
 				if(!SubSceneBoard.this.board.isValid(row_index, col_index)) {
+					System.out.println("isValid");
 					return;
 				}
 				SubSceneBoard.this.count++;
@@ -126,11 +127,16 @@ public class SubSceneBoard {
 		group.setPickOnBounds(true);
 		//this.subScene.z
 		this.listenerMouseClickForTwoPeople=e -> {
-			double x = e.getSceneX() - 50 - this.subScene.getLocalToSceneTransform().getTx();
-			double y = e.getSceneY() - 50 - this.subScene.getLocalToSceneTransform().getTy();
-			int row_index = (int) (y / 50);
-			int col_index = (int) (x / 50);
-			//System.out.println(col_index + ":" +row_index);
+			
+			double x = e.getSceneX() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTx();
+			double y = e.getSceneY() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTy();
+			int row_index = (int) (y / ConfigGame.DRAW);
+			int col_index = (int) (x / ConfigGame.DRAW);
+//			System.out.println(col_index + ":" +row_index);
+			if(!SubSceneBoard.this.board.isValid(row_index, col_index)) {
+				System.out.println("isValid");
+				return;
+			}
 			count++;
 			if (count % 2 == 1) {
 				//X đi
@@ -187,6 +193,13 @@ public class SubSceneBoard {
 	}
 	public void setController(ControllerGamePlayer controller) {
 		this.controller = controller;
+		
+	}
+	public ConfigGame.Target getTurn() {
+		if(count%2==1) {
+			return ConfigGame.Target.O;
+		}
+		return ConfigGame.Target.X;
 		
 	}
 

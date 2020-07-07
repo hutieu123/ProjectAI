@@ -21,7 +21,13 @@ public class Board {
 		}
 	}
 
-	public boolean isValid(int rows, int cols) {
+	public boolean isValid(int rowIndex, int colIndex) {
+		if(rowIndex>=this.matrix.length||colIndex>=this.matrix[0].length) {
+			return false;
+		}
+		if (this.matrix[rowIndex][colIndex]==-1) {
+			return true;
+		}else
 		return false;
 	}
 
