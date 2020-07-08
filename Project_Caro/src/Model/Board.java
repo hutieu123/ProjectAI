@@ -9,10 +9,11 @@ public class Board {
 	/*
 	 * x : 1 o : 2 null : -1
 	 */
-	public int numWin = ConfigGame.NUMBER_WIN;
+	public int numWin;
 	public int[][] matrix;
 
-	public Board(int rows, int cols) {
+	public Board(int rows, int cols, int numWin) {
+		this.numWin=numWin;
 		this.matrix = new int[rows][cols];
 		for (int i = 0; i < this.matrix.length; i++) {
 			for (int j = 0; j < this.matrix[i].length; j++) {
@@ -51,7 +52,7 @@ public class Board {
 	}
 
 	protected Board clone() {
-		Board boardClone = new Board(matrix.length, matrix.length);
+		Board boardClone = new Board(matrix.length, matrix[0].length, this.numWin);
 		for (int rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
 			for (int colIndex = 0; colIndex < matrix[rowIndex].length; colIndex++) {
 				boardClone.matrix[rowIndex][colIndex] = this.matrix[rowIndex][colIndex];

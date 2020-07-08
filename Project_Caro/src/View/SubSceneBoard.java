@@ -1,5 +1,7 @@
 package View;
 
+import java.util.Stack;
+
 import Controller.ControllerGamePlayer;
 import Controller.ControllerOfInitial;
 import Model.Agent;
@@ -21,8 +23,7 @@ public class SubSceneBoard {
 	Agent agent=null;
 	SubScene subScene;
 	private ControllerGamePlayer controller;
-	private EventHandler<MouseEvent> listenerMouseClickForTwoPeople=null;
-	private EventHandler<MouseEvent> listenerMouseClickForOnePeople=null;
+	private Stack<EventHandler<MouseEvent>> stackListenerMouseClick= new Stack<EventHandler<MouseEvent>>();
 	public SubSceneBoard(Board board) {
 		this.board=board;
 		this.subScene=DrawBoard.createSubScene(board, getGroup());
@@ -70,7 +71,7 @@ public class SubSceneBoard {
 	public void addListenerMouseClickForOnePeople() {
 		group.setPickOnBounds(true);
 //		this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, this.listenerMouseClickForTwoPeople);
-		this.listenerMouseClickForOnePeople=new EventHandler<MouseEvent>() {
+		EventHandler<MouseEvent> listenerMouseClickForOnePeople = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
 				double x = e.getSceneX() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTx();
@@ -113,20 +114,20 @@ public class SubSceneBoard {
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();
-					SubSceneBoard.this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, SubSceneBoard.this.listenerMouseClickForOnePeople);
+					removeAllListenerMouseClick();
 					
 				}
 				controller.clock.setText(""+10);
 				
 			}
 		};
-		this.group.addEventHandler(MouseEvent.MOUSE_CLICKED, this.listenerMouseClickForOnePeople);
-		
+		this.group.addEventHandler(MouseEvent.MOUSE_CLICKED, listenerMouseClickForOnePeople);
+		stackListenerMouseClick.push(listenerMouseClickForOnePeople);
 	}
 	public void addListenerMouseClickForTwoPeople() {
 		group.setPickOnBounds(true);
 		//this.subScene.z
-		this.listenerMouseClickForTwoPeople=e -> {
+		EventHandler<MouseEvent> listenerMouseClickForTwoPeople=e -> {
 			
 			double x = e.getSceneX() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTx();
 			double y = e.getSceneY() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTy();
@@ -172,15 +173,21 @@ public class SubSceneBoard {
 			int maxNumO=this.board.check(ConfigGame.Target.O.VALUE);
 			if ( maxNumX!= -1) {
 				controller.stopClock();
-				this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, SubSceneBoard.this.listenerMouseClickForTwoPeople);
+				removeAllListenerMouseClick();
 				System.out.println("X win");
 			} else if (maxNumO != -1) {
 				controller.stopClock();
-				this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, SubSceneBoard.this.listenerMouseClickForTwoPeople);
+				removeAllListenerMouseClick();
 				System.out.println("O win");
 			}
 		};
-		group.addEventHandler(MouseEvent.MOUSE_CLICKED, this.listenerMouseClickForTwoPeople);
+		group.addEventHandler(MouseEvent.MOUSE_CLICKED, listenerMouseClickForTwoPeople);
+		stackListenerMouseClick.push(listenerMouseClickForTwoPeople);
+	}
+	public void removeAllListenerMouseClick() {
+		while(stackListenerMouseClick.size()!=0) {
+			this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, stackListenerMouseClick.pop());
+		}
 	}
 	public Board getBoard() {
 		return board;

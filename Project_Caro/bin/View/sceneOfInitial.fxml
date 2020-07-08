@@ -10,16 +10,18 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="752.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerOfInitial">
    <center>
-      <VBox prefHeight="326.0" prefWidth="752.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="326.0" prefWidth="752.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#clickToStart" prefHeight="50.0" prefWidth="100.0" text="BẮT ĐẦU">
+            <Button mnemonicParsing="false" onAction="#clickToStart" prefHeight="50.0" prefWidth="150.0" text="BẮT ĐẦU">
                <VBox.margin>
-                  <Insets bottom="20.0" left="310.0" top="200.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="100.0" text="THOÁT">
+            <Button mnemonicParsing="false" onAction="#clickToStartTicTacToe" prefHeight="50.0" prefWidth="150.0" text="TIc Tac Toe" />
+            
+            <Button mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="150.0" text="THOÁT">
                <VBox.margin>
-                  <Insets left="310.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
          </children>

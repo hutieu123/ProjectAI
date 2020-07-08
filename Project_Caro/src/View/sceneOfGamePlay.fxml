@@ -11,6 +11,10 @@
 	   <AnchorPane prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
 	</center>
    <left>
-      <Label fx:id="clock" alignment="CENTER" prefHeight="110.0" prefWidth="106.0" text="10" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="clock" alignment="CENTER" prefHeight="110.0" prefWidth="106.0" text="10" textAlignment="CENTER" />
+         </children>
+      </VBox>
    </left>
 </BorderPane>
