@@ -48,6 +48,7 @@ public class ControllerGamePlayer implements Initializable {
 									ControllerGamePlayer.this.clockRunnging=false;
 									System.out.println("Time Out.");
 									ConfigGame.Target target =ControllerGamePlayer.this.subSceneBoard.getTurn();
+									ControllerGamePlayer.this.subSceneBoard.removeAllListenerMouseClick();
 									switch (target) {
 									case X:
 										String strX="X Lose.";
