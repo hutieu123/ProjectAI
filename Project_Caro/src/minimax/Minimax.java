@@ -78,7 +78,7 @@ public class Minimax implements Agent {
 		return 0;
 	}
 	public static void main(String[] args) {
-		Board board = new Board(3, 3);
+		Board board = new Board(3, 3, 3);
 		board.matrix[0][0]=1;
 		board.matrix[0][2]=1;
 		board.matrix[1][2]=1;
