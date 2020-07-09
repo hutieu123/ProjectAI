@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerGamePlayer">
+	
+	<center>
+	   <AnchorPane prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+	</center>
+   <left>
+      <Label fx:id="clock" alignment="CENTER" prefHeight="110.0" prefWidth="106.0" text="10" textAlignment="CENTER" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>
