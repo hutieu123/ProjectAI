@@ -18,16 +18,18 @@ public class ControllerFinish {
 	public Label whowin;
 	String winner;
 
-	
 	public String getWinner() {
 		return winner;
 	}
+
 	public void setWinner(String winner) {
 		this.winner = winner;
 	}
-	public void displayWinner(){
-		whowin.setText("Nguoi thang cuoc la "+winner);
+
+	public void displayWinner() {
+		whowin.setText("Nguoi thang cuoc la " + winner);
 	}
+
 	public void clickToStart(ActionEvent actionEvent) {
 		try {
 			Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -40,6 +42,8 @@ public class ControllerFinish {
 			subSceneBoard.setAgent(new Minimax());
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
+
+			c.setPrimaryStage(primaryStage);
 			c.setSubSceneBoard(subSceneBoard);
 
 			// Add listenerMouseClick For One People Again Agent

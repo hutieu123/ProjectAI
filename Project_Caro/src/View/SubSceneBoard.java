@@ -1,5 +1,6 @@
 package View;
 
+import java.io.IOException;
 import java.util.Stack;
 
 import Controller.ControllerGamePlayer;
@@ -27,7 +28,7 @@ public class SubSceneBoard {
 	public SubSceneBoard(Board board) {
 		this.board=board;
 		this.subScene=DrawBoard.createSubScene(board, getGroup());
-		
+
 	}
 	public SubScene getSubScene() {
 		return subScene;
@@ -38,7 +39,7 @@ public class SubSceneBoard {
 	public boolean move(int rows, int cols,ConfigGame.Target target){
 		return this.getBoard().move(rows, cols, target)!=null;
 	}
-	
+
 	public void paintX(Group group,int row_index, int col_index) {
 		Group x = new Group();
 		Line line1 = new Line(0, 0, 50, 50);
@@ -67,7 +68,7 @@ public class SubSceneBoard {
 		o.setScaleY(0.4);
 		group.getChildren().add(o);
 	}
-	
+
 	public void addListenerMouseClickForOnePeople() {
 		group.setPickOnBounds(true);
 //		this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, this.listenerMouseClickForTwoPeople);
@@ -97,7 +98,7 @@ public class SubSceneBoard {
 
 					}
 
-				} 
+				}
 				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
 				int[] location = agent.findBestMove(SubSceneBoard.this.board, ConfigGame.Target.O, ConfigGame.DEPTH);
@@ -108,17 +109,17 @@ public class SubSceneBoard {
 						SubSceneBoard.this.paintO(group, location[0], location[1]);
 					}
 				}
-				
-				
+
+
 				ConfigGame.Status status = SubSceneBoard.this.board.getCurrentStatus(ConfigGame.Target.X);
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();
 					removeAllListenerMouseClick();
-					
+
 				}
 				controller.clock.setText(""+10);
-				
+
 			}
 		};
 		this.group.addEventHandler(MouseEvent.MOUSE_CLICKED, listenerMouseClickForOnePeople);
@@ -128,7 +129,7 @@ public class SubSceneBoard {
 		group.setPickOnBounds(true);
 		//this.subScene.z
 		EventHandler<MouseEvent> listenerMouseClickForTwoPeople=e -> {
-			
+
 			double x = e.getSceneX() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTx();
 			double y = e.getSceneY() - ConfigGame.DRAW - SubSceneBoard.this.subScene.getLocalToSceneTransform().getTy();
 			int row_index = (int) (y / ConfigGame.DRAW);
@@ -150,7 +151,7 @@ public class SubSceneBoard {
 						this.paintX(group, row_index, col_index);
 						System.out.println("Tới O đi");
 						controller.clock.setText(""+10);
-						
+
 					}
 
 				}
@@ -175,10 +176,22 @@ public class SubSceneBoard {
 				controller.stopClock();
 				removeAllListenerMouseClick();
 				System.out.println("X win");
+				try {
+					controller.displayFinishScene("X");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else if (maxNumO != -1) {
 				controller.stopClock();
 				removeAllListenerMouseClick();
 				System.out.println("O win");
+				try {
+					controller.displayFinishScene("O");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		};
 		group.addEventHandler(MouseEvent.MOUSE_CLICKED, listenerMouseClickForTwoPeople);
@@ -192,22 +205,22 @@ public class SubSceneBoard {
 	public Board getBoard() {
 		return board;
 	}
-	
+
 	public void setAgent(Agent agent) {
 		this.agent=agent;
-		
-		
+
+
 	}
 	public void setController(ControllerGamePlayer controller) {
 		this.controller = controller;
-		
+
 	}
 	public ConfigGame.Target getTurn() {
 		if(count%2==1) {
 			return ConfigGame.Target.O;
 		}
 		return ConfigGame.Target.X;
-		
+
 	}
 
 }
