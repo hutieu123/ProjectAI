@@ -179,7 +179,6 @@ public class SubSceneBoard {
 				try {
 					controller.displayFinishScene("X");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (maxNumO != -1) {
@@ -189,7 +188,6 @@ public class SubSceneBoard {
 				try {
 					controller.displayFinishScene("O");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

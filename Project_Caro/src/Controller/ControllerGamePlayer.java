@@ -68,7 +68,6 @@ public class ControllerGamePlayer implements Initializable {
 										try {
 											displayFinishScene("O");
 										} catch (IOException e) {
-											// TODO Auto-generated catch block
 											e.printStackTrace();
 										}
 										break;
@@ -79,7 +78,6 @@ public class ControllerGamePlayer implements Initializable {
 										try {
 											displayFinishScene("X");
 										} catch (IOException e) {
-											// TODO Auto-generated catch block
 											e.printStackTrace();
 										}
 										break;
@@ -131,13 +129,13 @@ public class ControllerGamePlayer implements Initializable {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("../View/sceneOfFinish.fxml"));
 		BorderPane root = loader.load();
-
 		ControllerFinish c = loader.getController();
 		c.setWinner(winner);
 		c.displayWinner();
 		Scene scene = new Scene(root);
-
+		primarystage.hide();
 		primarystage.setScene(scene);
+		primarystage.centerOnScreen();
 		primarystage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
 			@Override
