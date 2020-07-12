@@ -24,6 +24,7 @@ public class ControllerOfInitial {
 			subSceneBoard.setAgent(new Minimax());
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
+			c.setPrimaryStage(primaryStage);
 			c.setSubSceneBoard(subSceneBoard);
 			
 			//Add listenerMouseClick For One People Again Agent

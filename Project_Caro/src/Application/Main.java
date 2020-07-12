@@ -18,7 +18,7 @@ public class Main extends Application {
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			
+
 			@Override
 			public void handle(WindowEvent event) {
 				primaryStage.close();
@@ -31,15 +31,5 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-
-
-
-
-
-
-
-
-
 
 }
