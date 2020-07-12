@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>bin</name>
+			<type>2</type>
+			<location>D:/GIt hub bin/Project_Caro/bin</location>
+		</link>
+	</linkedResources>
 </projectDescription>
