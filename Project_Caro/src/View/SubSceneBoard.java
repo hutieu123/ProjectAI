@@ -116,6 +116,7 @@ public class SubSceneBoard {
 					System.out.println(status);
 					controller.stopClock();
 					removeAllListenerMouseClick();
+					//TODO display SceneFinish with stalemate
 
 				}
 				controller.clock.setText(""+10);
