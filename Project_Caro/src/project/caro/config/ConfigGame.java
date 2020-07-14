@@ -3,7 +3,8 @@ package project.caro.config;
 
 
 public class ConfigGame {
-	
+	public static Target PLAYER_TARGET = Target.X;
+	public static Target COMPUTER_TARGET = Target.O;
 	public static final int NUMBER_WIN = 5;
 	public static final int NUMBER_COLS = 15;
 	public static final int NUMBER_ROWS = 15;

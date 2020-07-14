@@ -63,19 +63,7 @@ public class ControllerOfInitial {
 			c.setNode(initial);
 			c.addListenerMouseClickForOnePeople();
 			//Set computer first
-			//c.setTurmFirst(Target.);
-			c.clock.setText(""+10);
-			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), ConfigGame.Target.O, ConfigGame.DEPTH);
-			if(location!=null) {
-				Board boardTry = subSceneBoard.getBoard().move(location[0], location[1], ConfigGame.Target.O);
-				if(boardTry!=null) {
-					subSceneBoard.setBoard(boardTry);
-					subSceneBoard.paintO(subSceneBoard.getGroup(), location[0], location[1]);
-				}
-			}
-			
-			
-			//end computer first
+			c.setTurmFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
 			Scene scene = new Scene(root);
 			primaryStage.hide();
 			primaryStage.setScene(scene);

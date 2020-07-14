@@ -56,6 +56,42 @@ public class SubSceneBoard {
 		x.setScaleY(0.5);
 		group.getChildren().add(x);
 	}
+	public void paint(Group group,int row_index, int col_index, ConfigGame.Target target) {
+		switch (target) {
+		case X:
+			Group x = new Group();
+			Line line1 = new Line(0, 0, 50, 50);
+			Line line2 = new Line(50, 0, 0, 50);
+			line1.setStroke(Color.ORANGERED);
+			line1.setStrokeWidth(5.0);
+			line2.setStroke(Color.ORANGERED);
+			line2.setStrokeWidth(5.0);
+			x.getChildren().add(line1);
+			x.getChildren().add(line2);
+			x.setTranslateX(col_index*50);
+			x.setTranslateY(row_index*50);
+			x.setScaleX(0.5);
+			x.setScaleY(0.5);
+			group.getChildren().add(x);
+			break;
+		case O:
+			Group o = new Group();
+			Circle circle= new Circle(50,null);
+			circle.setStroke(Color.LAWNGREEN);
+			circle.setStrokeWidth(5.0);
+			o.getChildren().add(circle);
+			o.setTranslateX(col_index*50+25);
+			o.setTranslateY(row_index*50+25);
+			o.setScaleX(0.4);
+			o.setScaleY(0.4);
+			group.getChildren().add(o);
+			break;
+
+		default:
+			break;
+		}
+		
+	}
 	public void paintO(Group group,int row_index, int col_index) {
 		Group o = new Group();
 		Circle circle= new Circle(50,null);
@@ -93,7 +129,7 @@ public class SubSceneBoard {
 						Board boardTry = SubSceneBoard.this.getBoard().move(row_index, col_index, ConfigGame.Target.X);
 						if(boardTry!=null) {
 							SubSceneBoard.this.setBoard(boardTry);
-							SubSceneBoard.this.paintX(group, row_index, col_index);
+							SubSceneBoard.this.paint(group, row_index, col_index, ConfigGame.PLAYER_TARGET);
 						}
 
 					}
@@ -101,12 +137,12 @@ public class SubSceneBoard {
 				}
 				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
-				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.Target.O, ConfigGame.DEPTH);
+				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
 				if(location!=null) {
 					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.Target.O);
 					if(boardTry!=null) {
 						SubSceneBoard.this.setBoard(boardTry);
-						SubSceneBoard.this.paintO(group, location[0], location[1]);
+						SubSceneBoard.this.paint(group, location[0], location[1], ConfigGame.COMPUTER_TARGET);
 					}
 				}
 

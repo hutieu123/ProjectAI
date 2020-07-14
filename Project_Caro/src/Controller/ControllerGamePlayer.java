@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Model.Board;
 import View.SubSceneBoard;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import minimax.Node;
 import project.caro.config.ConfigGame;
+import project.caro.config.ConfigGame.Target;
 
 public class ControllerGamePlayer implements Initializable {
 	@FXML
@@ -145,6 +147,31 @@ public class ControllerGamePlayer implements Initializable {
 			}
 		});
 		primarystage.show();
+	}
+	/**
+	 * isHuman=true, target=X, => player hit X, computer hit O
+	 * isHuman=false, target=X, =>computer hit X, player hit O
+	 * target will turn first
+	 */
+	public void setTurmFirst(Target target,boolean isHuman) {
+		if(!isHuman) {
+			ConfigGame.COMPUTER_TARGET=target;
+			ConfigGame.PLAYER_TARGET=(target==Target.O)?Target.X:Target.O;;
+			this.clock.setText(""+10);
+			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), target, 0);
+			if(location!=null) {
+				Board boardTry = subSceneBoard.getBoard().move(location[0], location[1], target);
+				if(boardTry!=null) {
+					subSceneBoard.setBoard(boardTry);
+					subSceneBoard.paint(subSceneBoard.getGroup(), location[0], location[1], target);
+				}
+			}
+			this.clock.setText(""+10);
+		}else {
+			ConfigGame.PLAYER_TARGET=target;
+			ConfigGame.COMPUTER_TARGET=(target==Target.O)?Target.X:Target.O;;
+		}
+		
 	}
 
 }
