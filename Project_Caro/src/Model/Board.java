@@ -44,8 +44,8 @@ public class Board {
 
 
 	public boolean isOver() {
-		int numX = check(1);
-		int numO = check(2);
+		int numX = check(ConfigGame.Target.X);
+		int numO = check(ConfigGame.Target.O);
 		if (numX == this.numWin || numO == this.numWin)
 			return true;
 		return false;
@@ -61,12 +61,11 @@ public class Board {
 		return boardClone;
 	}
 
-	public int count(int[][] matrix, int[] location) {
+	public int count(int[][] matrix, int[] location, int numWin) {
 		int rs = 1;
 		int count = 1;
 		final int loacation_row = location[0];
 		final int loacation_col = location[1];
-		int numWin = 3;
 		// Đếm theo hàng ngang
 		for (int i = loacation_col + 1; i < matrix[loacation_row].length; i++) {
 			if (matrix[loacation_row][loacation_col] == matrix[loacation_row][i]) {
@@ -188,21 +187,21 @@ public class Board {
 	/*
 	 * Check target win or no. If win return target, no return -1
 	 */
-	public int check(int target) {
+	public int check(ConfigGame.Target target) {
 		int[] location = new int[2];
 		int count = 0;
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix[i].length; j++) {
 
-				if (matrix[i][j] == target) {
+				if (matrix[i][j] == target.VALUE) {
 
 					location[0] = i;
 					location[1] = j;
-					count = count(matrix, location);
+					count = count(matrix, location, 3);
 
 				}
 				if (count >= numWin) {
-					return target;
+					return count;
 				} else
 					count = 0;
 
@@ -211,8 +210,8 @@ public class Board {
 		return -1;
 	}
 	public ConfigGame.Status getCurrentStatus(ConfigGame.Target target){
-		int numX= check(ConfigGame.Target.X.VALUE);
-		int numO= check(ConfigGame.Target.O.VALUE);
+		int numX= check(ConfigGame.Target.X);
+		int numO= check(ConfigGame.Target.O);
 		boolean stalemate=true;
 		LoopOne:
 		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {
@@ -243,8 +242,8 @@ public class Board {
 		return ConfigGame.Status.NOT_OVER;
 	}
 	public ConfigGame.StatusMinimax getCurrentStatusMinimax(ConfigGame.Target target){
-		int numX= check(ConfigGame.Target.X.VALUE);
-		int numO= check(ConfigGame.Target.O.VALUE);
+		int numX= check(ConfigGame.Target.X);
+		int numO= check(ConfigGame.Target.O);
 		boolean stalemate=true;
 		LoopOne:
 		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {

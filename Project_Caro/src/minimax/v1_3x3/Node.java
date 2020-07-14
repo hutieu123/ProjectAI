@@ -1,4 +1,4 @@
-package minimax;
+package minimax.v1_3x3;
 
 import java.util.ArrayList;
 import java.util.List;

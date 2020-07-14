@@ -17,7 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import minimax.Node;
+import minimax.v1_3x3.Node;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
@@ -157,6 +157,7 @@ public class ControllerGamePlayer implements Initializable {
 		if(!isHuman) {
 			ConfigGame.COMPUTER_TARGET=target;
 			ConfigGame.PLAYER_TARGET=(target==Target.O)?Target.X:Target.O;;
+			//this.subSceneBoard.getAgent().
 			this.clock.setText(""+10);
 			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), target, 0);
 			if(location!=null) {

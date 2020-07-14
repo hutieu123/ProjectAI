@@ -123,10 +123,10 @@ public class SubSceneBoard {
 				SubSceneBoard.this.count++;
 				if (SubSceneBoard.this.count % 2 == 1) {
 					//X đi
-					if (SubSceneBoard.this.getBoard().matrix[row_index][col_index] != -1) {
+					if (SubSceneBoard.this.getBoard().matrix[row_index][col_index] != ConfigGame.Target.NOT_THING.VALUE) {
 						SubSceneBoard.this.count--;
 					} else {
-						Board boardTry = SubSceneBoard.this.getBoard().move(row_index, col_index, ConfigGame.Target.X);
+						Board boardTry = SubSceneBoard.this.getBoard().move(row_index, col_index, ConfigGame.PLAYER_TARGET);
 						if(boardTry!=null) {
 							SubSceneBoard.this.setBoard(boardTry);
 							SubSceneBoard.this.paint(group, row_index, col_index, ConfigGame.PLAYER_TARGET);
@@ -139,7 +139,7 @@ public class SubSceneBoard {
 				controller.clock.setText(""+10);
 				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
 				if(location!=null) {
-					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.Target.O);
+					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.COMPUTER_TARGET);
 					if(boardTry!=null) {
 						SubSceneBoard.this.setBoard(boardTry);
 						SubSceneBoard.this.paint(group, location[0], location[1], ConfigGame.COMPUTER_TARGET);
@@ -147,7 +147,7 @@ public class SubSceneBoard {
 				}
 
 
-				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.Target.X);
+				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();
@@ -207,8 +207,8 @@ public class SubSceneBoard {
 					}
 				}
 			}
-			int maxNumX=this.getBoard().check(ConfigGame.Target.X.VALUE);
-			int maxNumO=this.getBoard().check(ConfigGame.Target.O.VALUE);
+			int maxNumX=this.getBoard().check(ConfigGame.Target.X);
+			int maxNumO=this.getBoard().check(ConfigGame.Target.O);
 			if ( maxNumX!= -1) {
 				controller.stopClock();
 				removeAllListenerMouseClick();

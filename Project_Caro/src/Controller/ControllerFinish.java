@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import minimax.Minimax;
+import minimax.v1_3x3.Minimax;
 import project.caro.config.ConfigGame;
 
 public class ControllerFinish {

@@ -1,4 +1,4 @@
-package minimax;
+package minimax.v1_3x3;
 
 
 import static org.junit.Assert.assertArrayEquals;
@@ -48,17 +48,6 @@ public class TestMinimax {
 		Minimax minimax= new Minimax();
 		int[] move =minimax.findBestMove(board, turn, 0);
 		assertNotNull(move);
-//		Node node=minimax.initial.getNeighbours().get(0);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(1);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(2);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(3);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(4);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		System.out.println(Arrays.toString(move));
 		assertArrayEquals(new int[] {2,1}, move);
 	}
 	@Test
@@ -76,19 +65,31 @@ public class TestMinimax {
 		Node node = null;
 		for(int i=0; i<9;i++) {
 			node=minimax.initial.getNeighbours().get(i);
+			//System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+			
+		}
+		assertArrayEquals(new int[] {1,1}, move);
+	}
+	@Test
+	public void Test5() {
+		Board board = new Board(3, 3, 3);
+		board.matrix=new int[][] {
+			{-1,-1,2},
+			{-1,1,2},
+			{1,-1,-1}
+		};
+		Target turn= Target.X;
+		Minimax minimax= new Minimax();
+		int[] move =minimax.findBestMove(board, turn, 0);
+		assertNotNull(move);
+		Node node = null;
+		for(int i=0; i<5;i++) {
+			node=minimax.initial.getNeighbours().get(i);
 			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
 			
 		}
-//		node=minimax.initial.getNeighbours().get(1);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(2);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(3);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		node=minimax.initial.getNeighbours().get(4);
-//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-//		System.out.println(Arrays.toString(move));
-		assertArrayEquals(new int[] {1,1}, move);
+		System.out.println(Arrays.toString(move));
+		assertArrayEquals(new int[] {2,2}, move);
 	}
 
 }

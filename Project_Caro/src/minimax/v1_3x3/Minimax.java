@@ -1,4 +1,4 @@
-package minimax;
+package minimax.v1_3x3;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,18 +67,7 @@ public class Minimax implements Agent {
 		return null;
 	}
 	
-	@Override
-	public List<Model.Node> MinMax() {
-		return null;
-	}
-	@Override
-	public void AlphaBeta() {
-		
-	}
-	@Override
-	public int heuristic() {
-		return 0;
-	}
+
 	public static void main(String[] args) {
 		Board board = new Board(3, 3, 3);
 		board.matrix[0][0]=1;

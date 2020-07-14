@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import minimax.Minimax;
+import minimax.v1_3x3.Minimax;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
@@ -59,8 +59,7 @@ public class ControllerOfInitial {
 			c.setPrimaryStage(primaryStage);
 			
 			//Add listenerMouseClick For One People Again Agent
-			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
-			c.setNode(initial);
+			
 			c.addListenerMouseClickForOnePeople();
 			//Set computer first
 			c.setTurmFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
