@@ -61,16 +61,24 @@ public class Board {
 		return boardClone;
 	}
 
-	public int count(int[][] matrix, int[] location, int numWin) {
+	public int count(int[][] matrix, int[] location, int limitBottomNumInLine) {
 		int rs = 1;
 		int count = 1;
 		final int loacation_row = location[0];
 		final int loacation_col = location[1];
 		// Đếm theo hàng ngang
+		if(matrix[loacation_row][loacation_col]==-1) {
+			return 0;
+		}
+//		if(ConfigGame.Target.NOT_THING.VALUE.equals(Integer.valueOf(matrix[loacation_row][loacation_col]))) {
+//			return -1;
+//		}
+		//System.out.println(location[0]);
 		for (int i = loacation_col + 1; i < matrix[loacation_row].length; i++) {
 			if (matrix[loacation_row][loacation_col] == matrix[loacation_row][i]) {
 				count++;
-				if (count == numWin) {
+				if (count == limitBottomNumInLine) {
+//					System.out.println(!checkCorrect(loacation_row, i + 1));
 					if (!checkCorrect(loacation_row, loacation_col + 1 - 2) || !checkCorrect(loacation_row, i + 1)
 							|| matrix[loacation_row][loacation_col - 1] == -1 || matrix[loacation_row][i + 1] == -1) {
 
@@ -96,7 +104,7 @@ public class Board {
 		for (int i = loacation_row + 1; i < matrix.length; i++) {
 			if (matrix[loacation_row][loacation_col] == matrix[i][loacation_col]) {
 				count++;
-				if (count == numWin) {
+				if (count == limitBottomNumInLine) {
 					if (!checkCorrect(loacation_row + 1 + (-2), loacation_col) || !checkCorrect(i + 1, loacation_col)
 							|| matrix[loacation_row + 1 + (-2)][loacation_col] == -1
 							|| matrix[i + 1][loacation_col] == -1) {
@@ -123,7 +131,7 @@ public class Board {
 			if (matrix[loacation_row][loacation_col] == matrix[loacation_row + i][loacation_col + i]) {
 
 				count++;
-				if (count == numWin) {
+				if (count == limitBottomNumInLine) {
 					if (!checkCorrect(loacation_row + (-1), loacation_col + (-1))
 							|| !checkCorrect(loacation_row + (i + 1), loacation_col + (i + 1))
 							|| matrix[loacation_row + (-1)][loacation_col + (-1)] == -1
@@ -154,7 +162,7 @@ public class Board {
 			}
 			if (matrix[loacation_row][loacation_col] == matrix[loacation_row - i][loacation_col + i]) {
 				count++;
-				if (count == numWin) {
+				if (count == limitBottomNumInLine) {
 					if (!checkCorrect(loacation_row + 1, loacation_col - 1)
 							|| !checkCorrect(loacation_row - (i + 1), loacation_col + (i + 1))
 							|| matrix[loacation_row + 1][loacation_col - 1] == -1
@@ -181,7 +189,7 @@ public class Board {
 	}
 
 	public boolean checkCorrect(int rowIndex, int colIndex) {
-		return rowIndex >= 0 && colIndex >= 0 && rowIndex < matrix.length && colIndex <= matrix[rowIndex].length;
+		return rowIndex >= 0 && colIndex >= 0 && rowIndex < matrix.length && colIndex < matrix[rowIndex].length;
 	}
 
 	/*
@@ -197,6 +205,8 @@ public class Board {
 
 					location[0] = i;
 					location[1] = j;
+//					System.out.println(i);
+//					System.out.println(j);
 					count = count(matrix, location, 3);
 
 				}
@@ -272,6 +282,20 @@ public class Board {
 		}
 		
 		return ConfigGame.StatusMinimax.NOT_OVER;
+	}
+	public int heuristic(ConfigGame.Target target){
+		int h=0;
+		for (int rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+			for (int colIndex = 0; colIndex < matrix[rowIndex].length; colIndex++) {
+				if(matrix[rowIndex][colIndex]==target.VALUE) {
+					h+=50*this.count(matrix, new int[] {rowIndex,colIndex}, 2);
+				}else
+				if(matrix[rowIndex][colIndex]==ConfigGame.Target.NOT_THING.VALUE);else {
+					h-=49*this.count(matrix, new int[] {rowIndex,colIndex}, 2);
+				}
+			}
+		}
+		return h;
 	}
 
 }

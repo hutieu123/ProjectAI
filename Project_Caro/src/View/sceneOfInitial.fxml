@@ -17,7 +17,12 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#clickToStartTicTacToe" prefHeight="50.0" prefWidth="150.0" text="TIc Tac Toe" />
+            <Button mnemonicParsing="false" onAction="#clickToTest" prefHeight="50.0" prefWidth="150.0" text="Test Minimax no alpha beta">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#clickToStartTicTacToe" prefHeight="50.0" prefWidth="150.0" text="Tic Tac Toe" />
             
             <Button mnemonicParsing="false" onAction="#exit" prefHeight="50.0" prefWidth="150.0" text="THOÁT">
                <VBox.margin>
