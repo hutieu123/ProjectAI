@@ -40,7 +40,7 @@ public class Minimax implements Agent {
 						max=n.value;
 					}
 				}
-				initial.value=max;
+				initial.value+=max;
 			}else {
 				int min= Integer.MAX_VALUE;
 				for(Node n: neighbours) {
@@ -48,7 +48,7 @@ public class Minimax implements Agent {
 						min=n.value;
 					}
 				}
-				initial.value=min;
+				initial.value+=min;
 			}
 			break;
 		default:

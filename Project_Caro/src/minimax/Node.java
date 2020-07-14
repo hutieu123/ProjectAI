@@ -28,6 +28,11 @@ public class Node {
 		this.isMaxiumzing=isMaxiumzing;
 		this.colIndexBefore=col_Index;
 		this.rowIndexBefore=row_Index;
+		this.value=Math.abs(this.board.matrix.length/2-col_Index)*4+
+		Math.abs(this.board.matrix.length/2-row_Index)*4;
+		if(!isMaxiumzing) {
+			this.value=-this.value;
+		}
 	}
 	public List<Node> getNeighbours(){
 		return this.neighbours;
@@ -57,7 +62,7 @@ public class Node {
 					}
 				}
 			}
-			this.value=Integer.MIN_VALUE;
+			
 			break;
 			default:
 			break;

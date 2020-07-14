@@ -20,13 +20,13 @@ import project.caro.config.ConfigGame;
 public class SubSceneBoard {
 	int count = 0;
 	Group group = new Group();
-	Board board = null;
-	Agent agent=null;
+	private Board board = null;
+	private Agent agent=null;
 	SubScene subScene;
 	private ControllerGamePlayer controller;
 	private Stack<EventHandler<MouseEvent>> stackListenerMouseClick= new Stack<EventHandler<MouseEvent>>();
 	public SubSceneBoard(Board board) {
-		this.board=board;
+		this.setBoard(board);
 		this.subScene=DrawBoard.createSubScene(board, getGroup());
 
 	}
@@ -80,19 +80,19 @@ public class SubSceneBoard {
 				int row_index = (int) (y / ConfigGame.DRAW);
 				int col_index = (int) (x / ConfigGame.DRAW);
 //				System.out.println(col_index + ":" +row_index);
-				if(!SubSceneBoard.this.board.isValid(row_index, col_index)) {
+				if(!SubSceneBoard.this.getBoard().isValid(row_index, col_index)) {
 					System.out.println("isValid");
 					return;
 				}
 				SubSceneBoard.this.count++;
 				if (SubSceneBoard.this.count % 2 == 1) {
 					//X đi
-					if (SubSceneBoard.this.board.matrix[row_index][col_index] != -1) {
+					if (SubSceneBoard.this.getBoard().matrix[row_index][col_index] != -1) {
 						SubSceneBoard.this.count--;
 					} else {
-						Board boardTry = SubSceneBoard.this.board.move(row_index, col_index, ConfigGame.Target.X);
+						Board boardTry = SubSceneBoard.this.getBoard().move(row_index, col_index, ConfigGame.Target.X);
 						if(boardTry!=null) {
-							SubSceneBoard.this.board=boardTry;
+							SubSceneBoard.this.setBoard(boardTry);
 							SubSceneBoard.this.paintX(group, row_index, col_index);
 						}
 
@@ -101,17 +101,17 @@ public class SubSceneBoard {
 				}
 				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
-				int[] location = agent.findBestMove(SubSceneBoard.this.board, ConfigGame.Target.O, ConfigGame.DEPTH);
+				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.Target.O, ConfigGame.DEPTH);
 				if(location!=null) {
-					Board boardTry = SubSceneBoard.this.board.move(location[0], location[1], ConfigGame.Target.O);
+					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.Target.O);
 					if(boardTry!=null) {
-						SubSceneBoard.this.board=boardTry;
+						SubSceneBoard.this.setBoard(boardTry);
 						SubSceneBoard.this.paintO(group, location[0], location[1]);
 					}
 				}
 
 
-				ConfigGame.Status status = SubSceneBoard.this.board.getCurrentStatus(ConfigGame.Target.X);
+				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.Target.X);
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();
@@ -136,19 +136,19 @@ public class SubSceneBoard {
 			int row_index = (int) (y / ConfigGame.DRAW);
 			int col_index = (int) (x / ConfigGame.DRAW);
 //			System.out.println(col_index + ":" +row_index);
-			if(!SubSceneBoard.this.board.isValid(row_index, col_index)) {
+			if(!SubSceneBoard.this.getBoard().isValid(row_index, col_index)) {
 				System.out.println("isValid");
 				return;
 			}
 			count++;
 			if (count % 2 == 1) {
 				//X đi
-				if (board.matrix[row_index][col_index] != -1) {
+				if (getBoard().matrix[row_index][col_index] != -1) {
 					count--;
 				} else {
-					Board boardTry = this.board.move(row_index, col_index, ConfigGame.Target.X);
+					Board boardTry = this.getBoard().move(row_index, col_index, ConfigGame.Target.X);
 					if(boardTry!=null) {
-						this.board=boardTry;
+						this.setBoard(boardTry);
 						this.paintX(group, row_index, col_index);
 						System.out.println("Tới O đi");
 						controller.clock.setText(""+10);
@@ -159,20 +159,20 @@ public class SubSceneBoard {
 
 			} else {
 				//O đi
-				if (board.matrix[row_index][col_index] != -1) {
+				if (getBoard().matrix[row_index][col_index] != -1) {
 					count--;
 				} else {
-					Board boardTry = this.board.move(row_index, col_index, ConfigGame.Target.O);
+					Board boardTry = this.getBoard().move(row_index, col_index, ConfigGame.Target.O);
 					if(boardTry!=null) {
-						this.board=boardTry;
+						this.setBoard(boardTry);
 						this.paintO(group, row_index, col_index);
 						System.out.println("Tới X đi");
 						controller.clock.setText(""+10);
 					}
 				}
 			}
-			int maxNumX=this.board.check(ConfigGame.Target.X.VALUE);
-			int maxNumO=this.board.check(ConfigGame.Target.O.VALUE);
+			int maxNumX=this.getBoard().check(ConfigGame.Target.X.VALUE);
+			int maxNumO=this.getBoard().check(ConfigGame.Target.O.VALUE);
 			if ( maxNumX!= -1) {
 				controller.stopClock();
 				removeAllListenerMouseClick();
@@ -220,6 +220,12 @@ public class SubSceneBoard {
 		}
 		return ConfigGame.Target.X;
 
+	}
+	public Agent getAgent() {
+		return agent;
+	}
+	public void setBoard(Board board) {
+		this.board = board;
 	}
 
 }

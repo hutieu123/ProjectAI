@@ -56,13 +56,26 @@ public class ControllerOfInitial {
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
+			c.setPrimaryStage(primaryStage);
 			
 			//Add listenerMouseClick For One People Again Agent
 			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
 			c.setNode(initial);
 			c.addListenerMouseClickForOnePeople();
+			//Set computer first
+			//c.setTurmFirst(Target.);
+			c.clock.setText(""+10);
+			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), ConfigGame.Target.O, ConfigGame.DEPTH);
+			if(location!=null) {
+				Board boardTry = subSceneBoard.getBoard().move(location[0], location[1], ConfigGame.Target.O);
+				if(boardTry!=null) {
+					subSceneBoard.setBoard(boardTry);
+					subSceneBoard.paintO(subSceneBoard.getGroup(), location[0], location[1]);
+				}
+			}
 			
 			
+			//end computer first
 			Scene scene = new Scene(root);
 			primaryStage.hide();
 			primaryStage.setScene(scene);
