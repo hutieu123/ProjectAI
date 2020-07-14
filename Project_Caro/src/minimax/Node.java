@@ -44,7 +44,13 @@ public class Node {
 			for (int row_Index = 0; row_Index < board.matrix.length; row_Index++) {
 				for (int col_Index = 0; col_Index < board.matrix[row_Index].length; col_Index++) {
 					if(board.matrix[row_Index][col_Index]==ConfigGame.Target.NOT_THING.VALUE) {
-						Board boardTryMove = board.move(row_Index, col_Index, (isMaxiumzing&&this.target==Target.X)?Target.X:Target.O);
+						Target t = null;
+						if(isMaxiumzing) {
+							t= target;
+						}else {
+							t=(this.target==Target.O)?Target.X:Target.O;
+						}
+						Board boardTryMove = board.move(row_Index, col_Index, t);
 						if(boardTryMove!=null) {
 							this.neighbours.add(new Node(boardTryMove, target, !isMaxiumzing,row_Index, col_Index));
 						}

@@ -1,5 +1,6 @@
 package minimax;
 
+import java.util.Arrays;
 import java.util.List;
 
 import Model.Agent;
@@ -9,6 +10,7 @@ import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;
 
 public class Minimax implements Agent {
+	public Node initial=null;
 	public Minimax() {
 	}
 	public static void minimax(Node initial, boolean isMaximizingPlayer, ConfigGame.Target target, int depth) {
@@ -17,10 +19,10 @@ public class Minimax implements Agent {
 //		System.out.println(status);
 		switch (status) {
 		case WIN_GAME:
-			initial.value=10-depth;
+			initial.value=100-depth;
 			break;
 		case LOSE_GAME:
-			initial.value=-10+depth;
+			initial.value=-100+depth;
 			break;
 		case NOT_OVER:
 			initial.initNeighbours();
@@ -57,8 +59,8 @@ public class Minimax implements Agent {
 	
 	@Override
 	public int[] findBestMove(Board board, Target target, int depth) {
-		Node initial = new Node(board, Target.X, true);
-		minimax(initial, true, Target.X, depth);
+		this.initial=new Node(board, target, true);
+		minimax(initial, true, target, depth);
 		Node goal = initial.findBestMove();
 		if(goal!=null)
 		return new int[] {goal.rowIndexBefore, goal.colIndexBefore};
@@ -84,11 +86,15 @@ public class Minimax implements Agent {
 		board.matrix[1][2]=1;
 		board.matrix[0][1]=2;
 		board.matrix[1][1]=2;
-//		board.matrix[1][0]=2;
-		Target turn= Target.O;
-		Node initial = new Node(board, turn, true);
-		minimax(initial, true, turn,0);
-		System.out.println("Find Best Move: \n"+initial.findBestMove());
-		System.out.println(initial.getNeighbours().get(1));
+		board.matrix[1][0]=2;
+		Target turn= Target.X;
+		Minimax minimax= new Minimax();
+		System.out.println("Find Best Move: \n"+Arrays.toString(minimax.findBestMove(board, turn, 0)));
+		Node node=minimax.initial.getNeighbours().get(1);
+		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+		node=minimax.initial.getNeighbours().get(2);
+		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+//		node=minimax.initial.getNeighbours().get(3);
+//		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
 	}
 }
