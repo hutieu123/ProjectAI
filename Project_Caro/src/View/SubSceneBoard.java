@@ -136,6 +136,16 @@ public class SubSceneBoard {
 					}
 
 				}
+				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
+				if(status!=ConfigGame.Status.NOT_OVER) {
+					System.out.println(status);
+					controller.stopClock();
+					removeAllListenerMouseClick();
+					//TODO display SceneFinish with stalemate
+					return;
+
+				}
+				System.out.println(status);
 				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
 //				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
@@ -150,7 +160,8 @@ public class SubSceneBoard {
 				}
 
 
-				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
+				status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
+				
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();

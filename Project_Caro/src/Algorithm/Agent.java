@@ -18,7 +18,7 @@ public class Agent {
 	public long MiniMax(Node initial, int depth, boolean isMaximizngPlayer) {
 		if (depth == 0 || initial.isNoChildrens()) {
 			int[] label = initial.getLabel();
-			System.out.println(initial.getTarget());
+//			System.out.println(initial.getTarget());
 			initial.setValue(initial.getBoard().heuristicVer2(label[0], label[1], initial.getTarget()));
 			return initial.getValue();
 		}
@@ -93,7 +93,7 @@ public class Agent {
 					label[1] = j;
 					node.setLabel(label);
 					long value = MiniMax(node, 4, true);
-					System.out.println(value);
+//					System.out.println(value);
 					if (bestvalue < value) {
 						bestvalue = value;
 						bestLabel = node.getLabel();
