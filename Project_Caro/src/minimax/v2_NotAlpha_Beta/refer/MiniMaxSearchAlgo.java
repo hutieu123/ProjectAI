@@ -1,10 +1,10 @@
-package minimax.v2_NotAlpha_Beta;
+package minimax.v2_NotAlpha_Beta.refer;
 
 import java.util.Collections;
 import java.util.List;
 
-import minimax.core.Agent;
-import minimax.core.Node;
+import minimax.core.refer.Agent;
+import minimax.core.refer.Node;
 
 public class MiniMaxSearchAlgo implements Agent {
 

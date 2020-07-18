@@ -1,7 +1,7 @@
 package minimax.v3_alpha_beta;
 
-import minimax.core.Agent;
-import minimax.core.Node;
+import minimax.core.refer.Agent;
+import minimax.core.refer.Node;
 
 public class TestNode {
 	public static void main(String[] args) {

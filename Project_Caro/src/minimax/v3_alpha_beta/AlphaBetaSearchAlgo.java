@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import minimax.core.Agent;
-import minimax.core.Node;
+import minimax.core.refer.Agent;
+import minimax.core.refer.Node;
 
 public class AlphaBetaSearchAlgo implements Agent {
 

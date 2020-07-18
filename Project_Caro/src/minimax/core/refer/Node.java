@@ -1,4 +1,4 @@
-package minimax.core;
+package minimax.core.refer;
 
 import java.util.ArrayList;
 import java.util.Collections;
