@@ -243,6 +243,7 @@ public class SubSceneBoard {
 
 	public void setAgent(Agent agent) {
 		this.agent=agent;
+		this.board.setAgent(agent);
 
 
 	}

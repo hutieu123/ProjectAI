@@ -11,6 +11,16 @@ public class Board {
 	 */
 	public int numWin;
 	public int[][] matrix;
+	public Agent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
+	private Agent agent;
+
+	
 
 	public Board(int rows, int cols, int numWin) {
 		this.numWin=numWin;
@@ -283,19 +293,6 @@ public class Board {
 		
 		return ConfigGame.StatusMinimax.NOT_OVER;
 	}
-	public int heuristic(ConfigGame.Target target){
-		int h=0;
-		for (int rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
-			for (int colIndex = 0; colIndex < matrix[rowIndex].length; colIndex++) {
-				if(matrix[rowIndex][colIndex]==target.VALUE) {
-					h+=50*this.count(matrix, new int[] {rowIndex,colIndex}, 2);
-				}else
-				if(matrix[rowIndex][colIndex]==ConfigGame.Target.NOT_THING.VALUE);else {
-					h-=49*this.count(matrix, new int[] {rowIndex,colIndex}, 2);
-				}
-			}
-		}
-		return h;
-	}
+	
 
 }

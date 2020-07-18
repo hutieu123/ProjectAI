@@ -61,8 +61,8 @@ public class TestBoard {
 		int count= board.count(board.matrix, new int[] {7,6}, 2);
 		System.out.println(check);
 		System.out.println(count);
-		System.out.println(board.move(7, 4, turn).heuristic(Target.X));
-		System.out.println(board.move(7,3, turn).heuristic(Target.X));
+//		System.out.println(board.move(7, 4, turn).heuristic(Target.X));
+//		System.out.println(board.move(7,3, turn).heuristic(Target.X));
 		
 	}
 

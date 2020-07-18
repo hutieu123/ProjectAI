@@ -3,6 +3,7 @@ package minimax.v2_NotAlpha_Beta;
 import java.util.Arrays;
 import java.util.List;
 
+import Model.ANode;
 import Model.Agent;
 import Model.Board;
 import project.caro.config.ConfigGame;
@@ -26,7 +27,7 @@ public class Minimax_v2 implements Agent {
 			break;
 		case NOT_OVER:
 			if(depth==this.depth&&!initial.board.isOver()) {
-				initial.value+=initial.board.heuristic(target);
+				initial.value+=initial.heuristic(target);
 				break;
 			}
 			initial.initNeighbours();
@@ -90,4 +91,5 @@ public class Minimax_v2 implements Agent {
 //		node=minimax.initial.getNeighbours().get(3);
 //		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
 	}
+	
 }

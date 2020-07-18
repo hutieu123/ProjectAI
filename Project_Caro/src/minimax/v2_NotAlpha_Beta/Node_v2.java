@@ -3,13 +3,13 @@ package minimax.v2_NotAlpha_Beta;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.ANode;
 import Model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;
 
-public class Node_v2 {
-	public Board board;
+public class Node_v2 extends ANode {
 	public int value;
 	ConfigGame.Target target;
 	List<Node_v2> neighbours;
@@ -85,6 +85,21 @@ public class Node_v2 {
 			}
 		}
 		return bestMove;
+	}
+	@Override
+	public long heuristic(Target target) {
+		int h=0;
+		for (int rowIndex = 0; rowIndex < board.matrix.length; rowIndex++) {
+			for (int colIndex = 0; colIndex <  board.matrix[rowIndex].length; colIndex++) {
+				if( board.matrix[rowIndex][colIndex]==target.VALUE) {
+					h+=50* board.count( board.matrix, new int[] {rowIndex,colIndex}, 2);
+				}else
+				if( board.matrix[rowIndex][colIndex]==ConfigGame.Target.NOT_THING.VALUE);else {
+					h-=49* board.count( board.matrix, new int[] {rowIndex,colIndex}, 2);
+				}
+			}
+		}
+		return h;
 	}
 	
 

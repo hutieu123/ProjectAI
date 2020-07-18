@@ -3,6 +3,7 @@ package minimax.v1_3x3;
 import java.util.Arrays;
 import java.util.List;
 
+import Model.ANode;
 import Model.Agent;
 import Model.Board;
 import project.caro.config.ConfigGame;
@@ -56,6 +57,7 @@ public class Minimax implements Agent {
 		}
 		
 	}
+
 	
 	@Override
 	public int[] findBestMove(Board board, Target target, int depth) {

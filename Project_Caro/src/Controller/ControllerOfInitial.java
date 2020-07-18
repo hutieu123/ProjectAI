@@ -1,19 +1,33 @@
 package Controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import Model.Board;
 import View.SubSceneBoard;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import minimax.v1_3x3.Minimax;
-import minimax.v2_NotAlpha_Beta.Minimax_v2;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
-public class ControllerOfInitial {
+public class ControllerOfInitial implements Initializable {
+	@FXML
+	Button startGameWithTwoPeople;
+	@FXML
+	Button startGame_v1;
+	@FXML
+	Button startGameTicTacToe;
+	@FXML
+	Button	exitGame;
 	public void clickToStart(ActionEvent actionEvent) {
 		try {
 			Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -21,8 +35,7 @@ public class ControllerOfInitial {
 			loader.setLocation(getClass().getResource("../View/sceneOfGamePlay.fxml"));
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(ConfigGame.NUMBER_ROWS, ConfigGame.NUMBER_COLS,ConfigGame.NUMBER_WIN));
-			//Set Agent
-			subSceneBoard.setAgent(new Minimax());
+			
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setPrimaryStage(primaryStage);
@@ -53,7 +66,7 @@ public class ControllerOfInitial {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(3, 3,3));
 			//Set Agent
-			subSceneBoard.setAgent(new Minimax());
+			subSceneBoard.setAgent(new minimax.v1_3x3.Minimax());
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
@@ -82,7 +95,7 @@ public class ControllerOfInitial {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(15,15,5));
 			//Set Agent
-			subSceneBoard.setAgent(new Minimax_v2(2));
+			subSceneBoard.setAgent(new minimax.v2_NotAlpha_Beta.Minimax_v2(2));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
@@ -109,6 +122,15 @@ public class ControllerOfInitial {
 		primaryStage.close();
 		System.exit(0);
 
+	}
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		VBox vbox = (VBox) this.startGameWithTwoPeople.getParent();
+		this.startGameWithTwoPeople.prefWidthProperty().bind(vbox.prefWidthProperty());
+		this.exitGame.prefWidthProperty().bind(vbox.prefWidthProperty());
+		this.startGame_v1.prefWidthProperty().bind(vbox.prefWidthProperty());
+		this.startGameTicTacToe.prefWidthProperty().bind(vbox.prefWidthProperty());
+		System.out.println(vbox.getPrefWidth());
 	}
 
 }
