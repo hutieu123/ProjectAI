@@ -10,13 +10,13 @@ import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;
 
-public class Minimax_v2 implements Agent {
-	public Node_v2 initial=null;
+public class Minimax implements Agent {
+	public Node initial=null;
 	public int depth;
-	public Minimax_v2(int depth) {
+	public Minimax(int depth) {
 		this.depth=depth;
 	}
-	public void minimax(Node_v2 initial, boolean isMaximizingPlayer, ConfigGame.Target target, int depth) {
+	public void minimax(Node initial, boolean isMaximizingPlayer, ConfigGame.Target target, int depth) {
 		StatusMinimax status = initial.board.getCurrentStatusMinimax(target);
 		switch (status) {
 		case WIN_GAME:
@@ -31,9 +31,9 @@ public class Minimax_v2 implements Agent {
 				break;
 			}
 			initial.initNeighbours();
-			List<Node_v2> neighbours = initial.getNeighbours();
+			List<Node> neighbours = initial.getNeighbours();
 			if(neighbours!=null) {
-				for(Node_v2 n: neighbours) {
+				for(Node n: neighbours) {
 					minimax(n, !isMaximizingPlayer, target, depth+1);
 				}
 				
@@ -41,7 +41,7 @@ public class Minimax_v2 implements Agent {
 			//
 			if(isMaximizingPlayer) {
 				int max= Integer.MIN_VALUE;
-				for(Node_v2 n: neighbours) {
+				for(Node n: neighbours) {
 					if(max<n.value) {
 						max=n.value;
 					}
@@ -49,7 +49,7 @@ public class Minimax_v2 implements Agent {
 				initial.value+=max;
 			}else {
 				int min= Integer.MAX_VALUE;
-				for(Node_v2 n: neighbours) {
+				for(Node n: neighbours) {
 					if(min>n.value) {
 						min=n.value;
 					}
@@ -65,9 +65,9 @@ public class Minimax_v2 implements Agent {
 	
 	@Override
 	public int[] findBestMove(Board board, Target target, int depth) {
-		this.initial=new Node_v2(board, target, true);
+		this.initial=new Node(board, target, true);
 		minimax(initial, true, target, depth);
-		Node_v2 goal = initial.findBestMove();
+		Node goal = initial.findBestMove();
 		if(goal!=null)
 		return new int[] {goal.rowIndexBefore, goal.colIndexBefore};
 		return null;
@@ -82,7 +82,7 @@ public class Minimax_v2 implements Agent {
 			{-1,-1,-1}
 		};
 		Target turn= Target.X;
-		Minimax_v2 minimax= new Minimax_v2(4);
+		Minimax minimax= new Minimax(4);
 		System.out.println("Find Best Move: \n"+Arrays.toString(minimax.findBestMove(board, turn, 0)));
 //		Node_v2 node=minimax.initial.getNeighbours().get(1);
 //		System.out.println(node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);

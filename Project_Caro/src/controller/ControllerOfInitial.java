@@ -65,9 +65,9 @@ public class ControllerOfInitial implements Initializable {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(3, 3,3));
 			//Set Agent
-//			subSceneBoard.setAgent(new minimax.v1_3x3.Minimax());
+			subSceneBoard.setAgent(new minimax.v1_3x3.Minimax());
 //			subSceneBoard.setAgent(new minimax.v2_NotAlpha_Beta.Minimax_v2(1));
-			subSceneBoard.setAgent(new algorithm.Minimax(1));
+//			subSceneBoard.setAgent(new algorithm.Minimax(1));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
@@ -97,7 +97,7 @@ public class ControllerOfInitial implements Initializable {
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(15,15,5));
 			//Set Agent
 			//TODO
-			subSceneBoard.setAgent(new minimax.v2_NotAlpha_Beta.Minimax_v2(1));
+			subSceneBoard.setAgent(new minimax.v2_NotAlpha_Beta.Minimax(1));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);

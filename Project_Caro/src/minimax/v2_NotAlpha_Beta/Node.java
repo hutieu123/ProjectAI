@@ -9,20 +9,20 @@ import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;
 
-public class Node_v2 extends ANode {
+public class Node extends ANode {
 	public int value;
 	ConfigGame.Target target;
-	List<Node_v2> neighbours;
+	List<Node> neighbours;
 	boolean isMaxiumzing;
 	int rowIndexBefore=-1;
 	int colIndexBefore=-1;
 	//isMaxiumzing = true when turn on target move
-	public Node_v2(Board board, ConfigGame.Target target, boolean isMaxiumzing) {
+	public Node(Board board, ConfigGame.Target target, boolean isMaxiumzing) {
 		this.target=target;
 		this.board=board;
 		this.isMaxiumzing=isMaxiumzing;
 	}
-	public Node_v2(Board boardTryMove, Target target, boolean isMaxiumzing, int row_Index, int col_Index) {
+	public Node(Board boardTryMove, Target target, boolean isMaxiumzing, int row_Index, int col_Index) {
 		this.target=target;
 		this.board=boardTryMove;
 		this.isMaxiumzing=isMaxiumzing;
@@ -34,7 +34,7 @@ public class Node_v2 extends ANode {
 			this.value=-this.value;
 		}
 	}
-	public List<Node_v2> getNeighbours(){
+	public List<Node> getNeighbours(){
 		return this.neighbours;
 	}
 	public void initNeighbours() {
@@ -45,7 +45,7 @@ public class Node_v2 extends ANode {
 		case STALEMATE:
 			break;
 		case NOT_OVER:
-			this.neighbours=new ArrayList<Node_v2>();
+			this.neighbours=new ArrayList<Node>();
 			for (int row_Index = 0; row_Index < board.matrix.length; row_Index++) {
 				for (int col_Index = 0; col_Index < board.matrix[row_Index].length; col_Index++) {
 					if(board.matrix[row_Index][col_Index]==ConfigGame.Target.NOT_THING.VALUE) {
@@ -57,7 +57,7 @@ public class Node_v2 extends ANode {
 						}
 						Board boardTryMove = board.move(row_Index, col_Index, t);
 						if(boardTryMove!=null) {
-							this.neighbours.add(new Node_v2(boardTryMove, target, !isMaxiumzing,row_Index, col_Index));
+							this.neighbours.add(new Node(boardTryMove, target, !isMaxiumzing,row_Index, col_Index));
 						}
 					}
 				}
@@ -72,10 +72,10 @@ public class Node_v2 extends ANode {
 	public String toString() {
 		return board.toString()+"Value: "+this.value;
 	}
-	public Node_v2 findBestMove() {
-		Node_v2 bestMove = null;
+	public Node findBestMove() {
+		Node bestMove = null;
 		if(this.neighbours!=null)
-		for(Node_v2 n: this.neighbours) {
+		for(Node n: this.neighbours) {
 			if(bestMove==null) {
 				bestMove=n;
 				continue;
