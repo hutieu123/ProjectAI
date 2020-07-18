@@ -1,5 +1,6 @@
 package Controller;
 
+import Algorithm.Agent;
 import Model.Board;
 import View.SubSceneBoard;
 import javafx.event.ActionEvent;
@@ -39,7 +40,7 @@ public class ControllerFinish {
 			SubSceneBoard subSceneBoard = new SubSceneBoard(
 					new Board(ConfigGame.NUMBER_ROWS, ConfigGame.NUMBER_COLS, ConfigGame.NUMBER_WIN));
 			// Set Agent
-			subSceneBoard.setAgent(new Minimax());
+			subSceneBoard.setAgent(new Agent(0));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 

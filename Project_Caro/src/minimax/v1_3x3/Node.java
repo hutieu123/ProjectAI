@@ -62,7 +62,7 @@ public class Node {
 					}
 				}
 			}
-			
+
 			break;
 			default:
 			break;
@@ -86,6 +86,6 @@ public class Node {
 		}
 		return bestMove;
 	}
-	
+
 
 }

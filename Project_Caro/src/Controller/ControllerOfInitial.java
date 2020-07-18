@@ -1,5 +1,6 @@
 package Controller;
 
+import Algorithm.Agent;
 import Model.Board;
 import View.SubSceneBoard;
 import javafx.event.ActionEvent;
@@ -8,8 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import minimax.v1_3x3.Minimax;
-import minimax.v2_NotAlpha_Beta.Minimax_v2;
+//import minimax.v1_3x3.Minimax;
+//import minimax.v2_NotAlpha_Beta.Minimax_v2;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
@@ -22,19 +23,21 @@ public class ControllerOfInitial {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(ConfigGame.NUMBER_ROWS, ConfigGame.NUMBER_COLS,ConfigGame.NUMBER_WIN));
 			//Set Agent
-			subSceneBoard.setAgent(new Minimax());
+			Agent agent= new Agent(0);
+
+			subSceneBoard.setAgent(agent);
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setPrimaryStage(primaryStage);
 			c.setSubSceneBoard(subSceneBoard);
-			
+
 			//Add listenerMouseClick For One People Again Agent
 //			minimax.Node initial = new minimax.Node(subSceneBoard.getBoard(), Target.O, !true);
 //			c.setNode(initial);
 //			c.addListenerMouseClickForOnePeople();
-			
+
 			c.addListenerMouseClickForTwoPeople();
-			
+
 			Scene scene = new Scene(root);
 			primaryStage.hide();
 			primaryStage.setScene(scene);
@@ -53,17 +56,18 @@ public class ControllerOfInitial {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(3, 3,3));
 			//Set Agent
-			subSceneBoard.setAgent(new Minimax());
+			Agent agent= new Agent(0);
+			subSceneBoard.setAgent(agent);
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
 			c.setPrimaryStage(primaryStage);
-			
+
 			//Add listenerMouseClick For One People Again Agent
-			
+
 			c.addListenerMouseClickForOnePeople();
 			//Set computer first
-			c.setTurmFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
+			c.setTurnFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
 			Scene scene = new Scene(root);
 			primaryStage.hide();
 			primaryStage.setScene(scene);
@@ -72,7 +76,7 @@ public class ControllerOfInitial {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 	}
 	public void clickToTest(ActionEvent actionEvent) {
 		try {
@@ -82,17 +86,18 @@ public class ControllerOfInitial {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(15,15,5));
 			//Set Agent
-			subSceneBoard.setAgent(new Minimax_v2(2));
+			Agent agent= new Agent(0);
+			subSceneBoard.setAgent(agent);
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
 			c.setPrimaryStage(primaryStage);
-			
+
 			//Add listenerMouseClick For One People Again Agent
-			
+
 			c.addListenerMouseClickForOnePeople();
 			//Set computer first
-			c.setTurmFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
+			c.setTurnFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
 			Scene scene = new Scene(root);
 			primaryStage.hide();
 			primaryStage.setScene(scene);
@@ -101,7 +106,7 @@ public class ControllerOfInitial {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 	}
 
 	public void exit(ActionEvent actionEvent) {

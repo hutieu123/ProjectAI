@@ -153,13 +153,16 @@ public class ControllerGamePlayer implements Initializable {
 	 * isHuman=false, target=X, =>computer hit X, player hit O
 	 * target will turn first
 	 */
-	public void setTurmFirst(Target target,boolean isHuman) {
+	public void setTurnFirst(Target target,boolean isHuman) {
 		if(!isHuman) {
 			ConfigGame.COMPUTER_TARGET=target;
 			ConfigGame.PLAYER_TARGET=(target==Target.O)?Target.X:Target.O;;
 			//this.subSceneBoard.getAgent().
 			this.clock.setText(""+10);
-			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), target, 0);
+//			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), target, 0);
+			int[] location= new int[2];
+			location[0]= subSceneBoard.getBoard().matrix.length/2;
+			location[1]= subSceneBoard.getBoard().matrix.length/2;
 			if(location!=null) {
 				Board boardTry = subSceneBoard.getBoard().move(location[0], location[1], target);
 				if(boardTry!=null) {

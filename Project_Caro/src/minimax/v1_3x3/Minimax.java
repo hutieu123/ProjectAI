@@ -31,7 +31,7 @@ public class Minimax implements Agent {
 				for(Node n: neighbours) {
 					minimax(n, !isMaximizingPlayer, target, depth+1);
 				}
-				
+
 			}
 			if(isMaximizingPlayer) {
 				int max= Integer.MIN_VALUE;
@@ -54,9 +54,9 @@ public class Minimax implements Agent {
 		default:
 			break;
 		}
-		
+
 	}
-	
+
 	@Override
 	public int[] findBestMove(Board board, Target target, int depth) {
 		this.initial=new Node(board, target, true);
@@ -66,16 +66,16 @@ public class Minimax implements Agent {
 		return new int[] {goal.rowIndexBefore, goal.colIndexBefore};
 		return null;
 	}
-	
+
 
 	public static void main(String[] args) {
 		Board board = new Board(3, 3, 3);
-		board.matrix[0][0]=1;
-		board.matrix[0][2]=1;
-		board.matrix[1][2]=1;
-		board.matrix[0][1]=2;
-		board.matrix[1][1]=2;
-		board.matrix[1][0]=2;
+//		board.matrix[0][0]=1;
+//		board.matrix[0][2]=1;
+//		board.matrix[1][2]=1;
+//		board.matrix[0][1]=2;
+//		board.matrix[1][1]=2;
+//		board.matrix[1][0]=2;
 		Target turn= Target.X;
 		Minimax minimax= new Minimax();
 		System.out.println("Find Best Move: \n"+Arrays.toString(minimax.findBestMove(board, turn, 0)));

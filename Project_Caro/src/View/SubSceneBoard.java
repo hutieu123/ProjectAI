@@ -5,7 +5,7 @@ import java.util.Stack;
 
 import Controller.ControllerGamePlayer;
 import Controller.ControllerOfInitial;
-import Model.Agent;
+import Algorithm.Agent;
 import Model.Board;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -127,6 +127,7 @@ public class SubSceneBoard {
 						SubSceneBoard.this.count--;
 					} else {
 						Board boardTry = SubSceneBoard.this.getBoard().move(row_index, col_index, ConfigGame.PLAYER_TARGET);
+
 						if(boardTry!=null) {
 							SubSceneBoard.this.setBoard(boardTry);
 							SubSceneBoard.this.paint(group, row_index, col_index, ConfigGame.PLAYER_TARGET);
@@ -137,7 +138,9 @@ public class SubSceneBoard {
 				}
 				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
-				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
+//				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
+				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(),4, ConfigGame.COMPUTER_TARGET );
+
 				if(location!=null) {
 					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.COMPUTER_TARGET);
 					if(boardTry!=null) {
