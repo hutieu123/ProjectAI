@@ -3,7 +3,7 @@ package minimax.v1_3x3;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.Board;
+import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;

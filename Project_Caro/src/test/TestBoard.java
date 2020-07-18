@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Model.Board;
+import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 

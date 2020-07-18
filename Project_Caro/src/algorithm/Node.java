@@ -1,10 +1,10 @@
-package Algorithm;
+package algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.ANode;
-import Model.Board;
+import model.ANode;
+import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
@@ -40,8 +40,8 @@ public class Node extends ANode {
 		return value;
 	}
 
-	public void computeValue(Target target) {
-		this.value = this.heuristic(target);
+	public void computeValue() {
+		this.value = this.heuristic(this.target);
 	}
 
 	public ConfigGame.Target getTarget() {
@@ -111,14 +111,14 @@ public class Node extends ANode {
 		int rs = 0;
 		long Attack = 0;
 		long Defense = 0;
-//		Attack += scoreCountHorizontalAtk(row, col, target);
-//		Attack += scoreCountVerticalAtk(row, col, target);
-//		Attack += scoreCountPrimaryDiagonalAtk(row, col, target);
-//		Attack += scoreCountReserveDiagonalAtk(row, col, target);
-//		Defense += scoreCountHorizontalDef(row, col, target);
-//		Defense += scoreCountVerticalDef(row, col, target);
-//		Defense += scoreCountPrimaryDiagonalDef(row, col, target);
-//		Defense += scoreCountReserveDiagonalDef(row, col, target);
+		Attack += scoreCountHorizontalAtk(label[0], label[1], target);
+		Attack += scoreCountVerticalAtk(label[0], label[1], target);
+		Attack += scoreCountPrimaryDiagonalAtk(label[0], label[1], target);
+		Attack += scoreCountReserveDiagonalAtk(label[0], label[1], target);
+		Defense += scoreCountHorizontalDef(label[0], label[1], target);
+		Defense += scoreCountVerticalDef(label[0], label[1], target);
+		Defense += scoreCountPrimaryDiagonalDef(label[0], label[1], target);
+		Defense += scoreCountReserveDiagonalDef(label[0], label[1], target);
 //		System.out.println(Math.max(Attack, Defense));
 		return Math.max(Attack, Defense);
 	}

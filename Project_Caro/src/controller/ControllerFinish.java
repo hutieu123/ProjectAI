@@ -1,7 +1,5 @@
-package Controller;
+package controller;
 
-import Model.Board;
-import View.SubSceneBoard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +9,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import minimax.v1_3x3.Minimax;
+import model.Board;
 import project.caro.config.ConfigGame;
+import view.SubSceneBoard;
 
 public class ControllerFinish {
 	@FXML

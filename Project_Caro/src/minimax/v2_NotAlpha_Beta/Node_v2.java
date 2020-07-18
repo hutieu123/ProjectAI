@@ -3,8 +3,8 @@ package minimax.v2_NotAlpha_Beta;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.ANode;
-import Model.Board;
+import model.ANode;
+import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;

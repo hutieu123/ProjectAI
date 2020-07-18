@@ -1,11 +1,9 @@
-package Controller;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import Model.Board;
-import View.SubSceneBoard;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
@@ -15,15 +13,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import minimax.v1_3x3.Node;
+import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
+import view.SubSceneBoard;
 
 public class ControllerGamePlayer implements Initializable {
 	@FXML
 	public Label clock;
+	@FXML
+	VBox vbox;
 	Node initial = null;
 	SubSceneBoard subSceneBoard = null;
 	private boolean clockRunnging = true;
@@ -32,6 +35,7 @@ public class ControllerGamePlayer implements Initializable {
 	public void setSubSceneBoard(SubSceneBoard subSceneBoard) {
 		this.subSceneBoard = subSceneBoard;
 		this.subSceneBoard.setController(this);
+		//System.out.println(vbox.getPrefWidth());
 	}
 
 	public void setPrimaryStage(Stage primarystage) {
@@ -153,7 +157,7 @@ public class ControllerGamePlayer implements Initializable {
 	 * isHuman=false, target=X, =>computer hit X, player hit O
 	 * target will turn first
 	 */
-	public void setTurmFirst(Target target,boolean isHuman) {
+	public void setTurnFirst(Target target,boolean isHuman) {
 		if(!isHuman) {
 			ConfigGame.COMPUTER_TARGET=target;
 			ConfigGame.PLAYER_TARGET=(target==Target.O)?Target.X:Target.O;;

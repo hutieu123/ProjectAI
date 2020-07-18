@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import project.caro.config.ConfigGame;
 

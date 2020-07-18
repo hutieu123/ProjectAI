@@ -1,12 +1,12 @@
-package Algorithm;
+package algorithm;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import Model.ANode;
-import Model.Agent;
-import Model.Board;
+import model.ANode;
+import model.Agent;
+import model.Board;
 import project.caro.config.ConfigGame;
 
 public class Minimax implements Agent {
@@ -21,7 +21,7 @@ public class Minimax implements Agent {
 		if (depth == 0 || initial.isNoChildrens()) {
 			int[] label = initial.getLabel();
 //			System.out.println(initial.getTarget());
-//			initial.setValue(initial.getBoard().heuristicVer2(label[0], label[1], initial.getTarget()));
+			initial.computeValue();
 			return initial.getValue();
 		}
 		if (isMaximizngPlayer) {
@@ -64,7 +64,7 @@ public class Minimax implements Agent {
 					label[0] = i;
 					label[1] = j;
 					node.setLabel(label);
-					long value = MiniMax(node, 4, true);
+					long value = MiniMax(node, depth, true);
 //					System.out.println(value);
 					if (bestvalue < value) {
 						bestvalue = value;

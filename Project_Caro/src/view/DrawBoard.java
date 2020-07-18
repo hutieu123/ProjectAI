@@ -1,11 +1,11 @@
-package View;
+package view;
 
 import project.caro.config.ConfigGame;
-import Model.Board;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import model.Board;
 
 public class DrawBoard {
 	public static SubScene createSubScene(Board board, Group group) {

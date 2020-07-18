@@ -1,12 +1,10 @@
-package View;
+package view;
 
 import java.io.IOException;
 import java.util.Stack;
 
-import Controller.ControllerGamePlayer;
-import Controller.ControllerOfInitial;
-import Model.Agent;
-import Model.Board;
+import controller.ControllerGamePlayer;
+import controller.ControllerOfInitial;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
@@ -14,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import model.Agent;
+import model.Board;
 import project.caro.config.ConfigGame;
 
 
@@ -107,7 +107,7 @@ public class SubSceneBoard {
 
 	public void addListenerMouseClickForOnePeople() {
 		group.setPickOnBounds(true);
-//		this.group.removeEventHandler(MouseEvent.MOUSE_CLICKED, this.listenerMouseClickForTwoPeople);
+		removeAllListenerMouseClick();
 		EventHandler<MouseEvent> listenerMouseClickForOnePeople = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -136,7 +136,16 @@ public class SubSceneBoard {
 
 				}
 				SubSceneBoard.this.count++;
+				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
+				if(status!=ConfigGame.Status.NOT_OVER) {
+					System.out.println(status);
+					controller.stopClock();
+					removeAllListenerMouseClick();
+					//TODO display SceneFinish with stalemate
+
+				}
 				controller.clock.setText(""+10);
+
 				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
 				if(location!=null) {
 					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.COMPUTER_TARGET);
@@ -147,7 +156,7 @@ public class SubSceneBoard {
 				}
 
 
-				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
+				status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();

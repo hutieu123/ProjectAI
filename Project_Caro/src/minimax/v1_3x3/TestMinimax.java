@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import Model.Board;
+import model.Board;
 import project.caro.config.ConfigGame.Target;
 
 public class TestMinimax {

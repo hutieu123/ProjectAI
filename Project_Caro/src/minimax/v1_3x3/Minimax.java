@@ -3,9 +3,9 @@ package minimax.v1_3x3;
 import java.util.Arrays;
 import java.util.List;
 
-import Model.ANode;
-import Model.Agent;
-import Model.Board;
+import model.ANode;
+import model.Agent;
+import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;
