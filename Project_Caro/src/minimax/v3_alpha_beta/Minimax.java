@@ -54,12 +54,14 @@ public class Minimax implements Agent {
 				if(focus.isMaxiumzing) {
 					if(this.beta>focus.value)
 					this.beta = focus.value;else {
+						System.out.println("Cut");
 						break;
 					}
 //					System.out.println(beta);
 				}else {
 					if(this.alpha<focus.value)
 					this.alpha=focus.value;else {
+						System.out.println("Cut");
 						break;
 					}
 				}

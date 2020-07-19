@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import controller.ControllerGamePlayer;
 import controller.ControllerOfInitial;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
@@ -101,6 +102,7 @@ public class SubSceneBoard {
 		}
 		
 	}
+	boolean running=true;
 	public void paintO(Group group,int row_index, int col_index) {
 		Group o = new Group();
 		Circle circle= new Circle(50,null);
@@ -144,36 +146,47 @@ public class SubSceneBoard {
 					}
 
 				}
-				SubSceneBoard.this.count++;
+				
 				ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
 				if(status!=ConfigGame.Status.NOT_OVER) {
 					System.out.println(status);
 					controller.stopClock();
 					removeAllListenerMouseClick();
+					running=false;
 					//TODO display SceneFinish with stalemate
 
 				}
+				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+						if(!running)return;	
 
-				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
-				if(location!=null) {
-					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.COMPUTER_TARGET);
-					if(boardTry!=null) {
-						SubSceneBoard.this.setBoard(boardTry);
-						SubSceneBoard.this.paint(group, location[0], location[1], ConfigGame.COMPUTER_TARGET);
+						int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
+						if(location!=null) {
+							Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.COMPUTER_TARGET);
+							if(boardTry!=null) {
+								SubSceneBoard.this.setBoard(boardTry);
+								SubSceneBoard.this.paint(group, location[0], location[1], ConfigGame.COMPUTER_TARGET);
+							}
+						}
+
+
+						ConfigGame.Status status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
+						if(status!=ConfigGame.Status.NOT_OVER) {
+							System.out.println(status);
+							controller.stopClock();
+							removeAllListenerMouseClick();
+							//TODO display SceneFinish with stalemate
+							running=false;
+
+						}
+						controller.clock.setText(""+10);
+						
 					}
-				}
-
-
-				status = SubSceneBoard.this.getBoard().getCurrentStatus(ConfigGame.PLAYER_TARGET);
-				if(status!=ConfigGame.Status.NOT_OVER) {
-					System.out.println(status);
-					controller.stopClock();
-					removeAllListenerMouseClick();
-					//TODO display SceneFinish with stalemate
-
-				}
-				controller.clock.setText(""+10);
+				});
 
 			}
 		};
