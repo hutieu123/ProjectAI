@@ -546,7 +546,7 @@ public class Board {
 			if (checkCorrect(row, i) == true) {
 				if (matrix[row][i] == enemy && chessEnemy < numWin) {
 					chessEnemy++;
-				} else if (matrix[row][i] == enemy) {
+				} else if (matrix[row][i] == object) {
 					chessObject++;
 					break;
 				} else {
@@ -557,7 +557,6 @@ public class Board {
 			}
 
 		}
-
 		scoreDef = Board.Defen[chessEnemy + 1];
 		return scoreDef;
 
