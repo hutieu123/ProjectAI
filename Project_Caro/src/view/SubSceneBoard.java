@@ -28,6 +28,15 @@ public class SubSceneBoard {
 	public SubSceneBoard(Board board) {
 		this.setBoard(board);
 		this.subScene=DrawBoard.createSubScene(board, getGroup());
+		for (int i = 0; i < board.matrix.length; i++) {
+			for (int j = 0; j < board.matrix[i].length; j++) {
+				if(board.matrix[i][j]==ConfigGame.Target.X.VALUE) {
+					this.paint(group, i, j, ConfigGame.Target.X);
+				}else if(board.matrix[i][j]==ConfigGame.Target.O.VALUE) {
+					this.paint(group, i, j, ConfigGame.Target.O);
+				}
+			}
+		}
 
 	}
 	public SubScene getSubScene() {

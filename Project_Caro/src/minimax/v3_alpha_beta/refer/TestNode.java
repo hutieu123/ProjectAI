@@ -1,4 +1,4 @@
-package minimax.v3_alpha_beta;
+package minimax.v3_alpha_beta.refer;
 
 import minimax.core.refer.Agent;
 import minimax.core.refer.Node;

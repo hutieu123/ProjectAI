@@ -61,7 +61,7 @@ public class Board {
 		return false;
 	}
 
-	protected Board clone() {
+	public Board clone() {
 		Board boardClone = new Board(matrix.length, matrix[0].length, this.numWin);
 		for (int rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
 			for (int colIndex = 0; colIndex < matrix[rowIndex].length; colIndex++) {

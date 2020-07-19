@@ -9,57 +9,36 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import model.Board;
+import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
 public class TestMinimax {
-	@Test
-	public void Test5x5() {
-		Board board = new Board(5, 5, 3);
-		Target turn= Target.X;
-		Minimax minimax= new Minimax(2);
-		int[] move =minimax.findBestMove(board, turn, 0);
-//		System.out.println(Arrays.toString(move));
-		assertArrayEquals(new int[] {2,2}, minimax.findBestMove(board, turn, 0));
-	}
-	@Test
-	public void Test4x4() {
-		Board board = new Board(4, 4, 3);
-		Target turn= Target.X;
-		Minimax minimax= new Minimax(2);
-		int[] move =minimax.findBestMove(board, turn, 0);
-//		System.out.println(Arrays.toString(move));
-		assertArrayEquals(new int[] {2,2}, minimax.findBestMove(board, turn, 0));
-	}
+
 //	@Test
-//	public void Test7x7() {
-//		Board board = new Board(7, 7, 5);
-//		board.matrix=new int[][]   {//8
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},//0
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},//5
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},//10
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-//			{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}//14
-//			
-//		};
+//	public void Test3x3() {
+//		Board board = new Board(3, 3, 3);
 //		Target turn= Target.X;
-////		System.out.println(board.check(turn));
-//		Minimax_v2 minimax= new Minimax_v2();
+//		Minimax minimax= new Minimax(1);
 //		int[] move =minimax.findBestMove(board, turn, 0);
-//		System.out.println(Arrays.toString(move));
-////		assertArrayEquals(new int[] {2,1}, minimax.findBestMove(board, turn, 0));
+//		assertNotNull(move);
+//		Node node = null;
+//		for(int i=0; i<9;i++) {
+//			node=minimax.initial.getNeighbours().get(i);
+////			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+//		}
+////		System.out.println(Arrays.toString(move));
+//		assertArrayEquals(new int[] {1,1}, move);
+//	}
+//	@Test
+//	public void Test3x3_2() {
+//		Board board = new Board(3, 3, 3);
+//		Node initial=new Node(board, ConfigGame.Target.X, true, 0);
+//		Target turn= Target.X;
+//		Node leaf=initial.initLeaf(2);
+//		Minimax minimax= new Minimax(2);
 //	}
 	@Test
-	public void Test3x3() {
+	public void Test3x3_3() {
 		Board board = new Board(3, 3, 3);
 		Target turn= Target.X;
 		Minimax minimax= new Minimax(2);
@@ -68,31 +47,26 @@ public class TestMinimax {
 		Node node = null;
 		for(int i=0; i<9;i++) {
 			node=minimax.initial.getNeighbours().get(i);
-//			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
 		}
 //		System.out.println(Arrays.toString(move));
 		assertArrayEquals(new int[] {1,1}, move);
 	}
-	@Test
-	public void Test3x3_2() {
-		Board board = new Board(3, 3, 3);
-		board.matrix=new int[][] {
-			{-1,-1,2},
-			{-1,1,2},
-			{1,-1,-1}
-		};
-		Target turn= Target.X;
-		Minimax minimax= new Minimax(4);
-		int[] move =minimax.findBestMove(board, turn, 0);
-		assertNotNull(move);
-		Node node = null;
-		for(int i=0; i<5;i++) {
-			node=minimax.initial.getNeighbours().get(i);
-//			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
-			
-		}
-//		System.out.println(Arrays.toString(move));
-		assertArrayEquals(new int[] {2,2}, move);
-	}
+//	@Test
+//	public void Test3x3_4() {
+//		Board board = new Board(15, 15, 5);
+//		Target turn= Target.X;
+//		Minimax minimax= new Minimax(2);
+//		int[] move =minimax.findBestMove(board, turn, 0);
+//		assertNotNull(move);
+//		Node node = null;
+//		for(int i=0; i<25;i++) {
+//			node=minimax.initial.getNeighbours().get(i);
+////			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+//		}
+////		System.out.println(Arrays.toString(move));
+//		assertArrayEquals(new int[] {7,7}, move);
+//	}
+
 
 }

@@ -1,4 +1,4 @@
-package minimax.v3_alpha_beta;
+package minimax.v3_alpha_beta.refer;
 
 import java.util.ArrayList;
 import java.util.Collections;

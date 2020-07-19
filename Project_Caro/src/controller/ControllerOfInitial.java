@@ -121,11 +121,13 @@ public class ControllerOfInitial implements Initializable {
 		try {
 			Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(getClass().getResource("../View/sceneOfGamePlay.fxml"));
+			loader.setLocation(getClass().getResource("../view/sceneOfGamePlay.fxml"));
 			BorderPane root = loader.load();
+//			minimax.v3_alpha_beta.Minimax test=new minimax.v3_alpha_beta.Minimax(ConfigGame.DEPTH);
+//			test.
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(15,15,5));
 			//Set Agent
-			subSceneBoard.setAgent(new minimax.v3_alpha_beta.Minimax(ConfigGame.DEPTH));
+			subSceneBoard.setAgent(new minimax.v3_alpha_beta.Minimax(2));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);

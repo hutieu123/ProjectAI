@@ -41,6 +41,8 @@ public class DrawBoard {
 			group.getChildren().add(lineH);
 			lineH.setStroke(Color.LIGHTSKYBLUE);
 		}
+		
+		
 
 		return new SubScene(group, width, height);
 	}
