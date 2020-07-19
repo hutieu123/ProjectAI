@@ -4,6 +4,7 @@ import java.util.Random;
 
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
+import sun.swing.text.CountingPrintable;
 
 public class Board {
 	/*
@@ -334,18 +335,371 @@ public class Board {
 	}
 
 	public long heuristicVer2(int row, int col, ConfigGame.Target target) {
-		int rs = 0;
+
 		long Attack = 0;
 		long Defense = 0;
-		Attack += scoreCountHorizontalAtk(row, col, target);
-		Attack += scoreCountVerticalAtk(row, col, target);
-		Attack += scoreCountPrimaryDiagonalAtk(row, col, target);
-		Attack += scoreCountReserveDiagonalAtk(row, col, target);
+		Attack += scoreHorizontalAtk(row, col, target);
+		Attack += scoreVerticalAtk(row, col, target);
+		Attack += scorePrimaryDiagonalAtk(row, col, target);
+		Attack += scoreReserveDiagonalAtk(row, col, target);
 		Defense += scoreCountHorizontalDef(row, col, target);
 		Defense += scoreCountVerticalDef(row, col, target);
 		Defense += scoreCountPrimaryDiagonalDef(row, col, target);
 		Defense += scoreCountReserveDiagonalDef(row, col, target);
 		return Math.max(Attack, Defense);
+	}
+
+
+
+	public long scoreVerticalAtk(int row, int col, ConfigGame.Target target) {
+		int scoreAtck = 0;
+		int scoreDef = 0;
+		int vacancy = ConfigGame.Target.NOT_THING.VALUE;
+		int chessObject = 1;
+		int chessEnemy = 0;
+		int chessEmpty = 0;
+		int object = target.VALUE;
+		int enemy = 0;
+		if (object == 1) {
+			enemy = 2;
+		}
+		if (object == 2) {
+			enemy = 1;
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row + i, col) == true) {
+				if (matrix[row + i][col] == object) {
+					chessObject++;
+				} else if (matrix[row + i][col] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row + i][col] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row + i + j, col)) {
+							if (matrix[row + i + j][col] == object) {
+								chessObject++;
+							} else if (matrix[row + i + j][col] == vacancy) {
+								chessEmpty++;
+								break all;
+							} else if (matrix[row + i + j][col] == enemy) {
+								chessEnemy++;
+								break all;
+							}
+						} else {
+							chessEnemy++;
+							break all;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row - i, col) == true) {
+				if (matrix[row - i][col] == object) {
+					chessObject++;
+				} else if (matrix[row - i][col] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row - i][col] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row - i - j, col)) {
+							if (matrix[row - i - j][col] == object) {
+								chessObject++;
+								continue;
+							} else if (matrix[row - i - j][col] == vacancy) {
+								chessEmpty++;
+								break all;
+							} else if (matrix[row - i - j][col] == enemy) {
+								chessEnemy++;
+								break all;
+							}
+						} else {
+							chessEnemy++;
+							break all;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+
+		}
+		if (chessEnemy >= 2 && chessObject < numWin) {
+			return 0;
+		} else {
+			scoreAtck += Board.Attack[chessObject];
+			scoreDef += Board.Defen[chessEnemy + 1];
+			scoreDef += Board.Defen[chessEmpty + 1];
+			return scoreAtck - scoreDef;
+		}
+
+	}
+
+	public long scoreHorizontalAtk(int row, int col, ConfigGame.Target target) {
+		int scoreAtck = 0;
+		int scoreDef = 0;
+		int vacancy = ConfigGame.Target.NOT_THING.VALUE;
+		int chessObject = 1;
+		int chessEnemy = 0;
+		int chessEmpty = 0;
+		int object = target.VALUE;
+		int enemy = 0;
+		if (object == 1) {
+			enemy = 2;
+		}
+		if (object == 2) {
+			enemy = 1;
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row, col + i)) {
+				if (matrix[row][col + i] == object) {
+					chessObject++;
+				} else if (matrix[row][col + i] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row][col + i] == ConfigGame.Target.NOT_THING.VALUE) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row, col + i + j)) {
+							if (matrix[row][col + i + j] == object) {
+								chessObject++;
+							} else if (matrix[row][col + i + j] == enemy || checkCorrect(row, col + i + j)) {
+								chessEnemy++;
+								break all;
+							} else if (matrix[row][col + i + j] == ConfigGame.Target.NOT_THING.VALUE) {
+								chessEmpty++;
+								break all;
+							}
+						} else {
+							chessEnemy++;
+							break all;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row, col - i)) {
+				if (matrix[row][col - i] == object) {
+					chessObject++;
+				} else if (matrix[row][col - i] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row][col - i] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row, col - i - j)) {
+							if (matrix[row][col - i - j] == object) {
+								chessObject++;
+							} else if (matrix[row][col - i - j] == enemy) {
+								chessEnemy++;
+								break all;
+							} else if (matrix[row][col - i - j] == vacancy) {
+								chessEmpty++;
+								break all;
+							}
+						} else {
+							chessEnemy++;
+							break all;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		if (chessEnemy >= 2 && chessObject < numWin) {
+			return 0;
+		} else {
+			scoreAtck = Board.Attack[chessObject];
+			scoreDef = Board.Defen[chessEnemy + 1];
+			scoreDef += Board.Defen[chessEmpty + 1];
+			return scoreAtck - scoreDef;
+		}
+	}
+
+	public long scorePrimaryDiagonalAtk(int row, int col, ConfigGame.Target target) {
+		int scoreAtck = 0;
+		int scoreDef = 0;
+		int vacancy = ConfigGame.Target.NOT_THING.VALUE;
+		int chessObject = 1;
+		int chessEnemy = 0;
+		int chessEmpty = 0;
+		int object = target.VALUE;
+		int enemy = 0;
+		if (object == 1) {
+			enemy = 2;
+		}
+		if (object == 2) {
+			enemy = 1;
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row + i, col + i)) {
+				if (matrix[row + i][col + i] == object) {
+					chessObject++;
+				} else if (matrix[row + i][col + i] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row + i][col + i] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row + i + j, col + i + j)) {
+							if (matrix[row + i + j][col + i + j] == object) {
+								chessObject++;
+							} else if (matrix[row + i + j][col + i + j] == enemy) {
+								chessEnemy++;
+								break all;
+							} else if (matrix[row + i + j][col + i + j] == vacancy) {
+								chessEmpty++;
+								break all;
+							}
+						} else {
+							chessEnemy++;
+							break all;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row - i, col - i)) {
+				if (matrix[row - i][col - i] == object) {
+					chessObject++;
+				} else if (matrix[row - i][col - i] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row - i][col - i] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row - i - j, col - i - j)) {
+							if (matrix[row - i - j][col - i - j] == object) {
+								chessObject++;
+							} else if (matrix[row - i - j][col - i - j] == enemy) {
+								chessEnemy++;
+								break all;
+							} else if (matrix[row - i - j][col - i - j] == vacancy) {
+								chessEmpty++;
+								break all;
+							}
+						} else {
+							chessEnemy++;
+							break all;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		if (chessEnemy >= 2 && chessObject < numWin) {
+			return 0;
+		} else {
+			scoreAtck = Board.Attack[chessObject];
+			scoreDef = Board.Defen[chessEnemy + 1];
+			scoreDef += Board.Defen[chessEmpty + 1];
+			return scoreAtck - scoreDef;
+		}
+	}
+
+	public long scoreReserveDiagonalAtk(int row, int col, ConfigGame.Target target) {
+		int scoreAtck = 0;
+		int scoreDef = 0;
+		int vacancy = ConfigGame.Target.NOT_THING.VALUE;
+		int chessObject = 1;
+		int chessEnemy = 0;
+		int chessEmpty = 0;
+		int object = target.VALUE;
+		int enemy = 0;
+		if (object == 1) {
+			enemy = 2;
+		}
+		if (object == 2) {
+			enemy = 1;
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row + i, col - i)) {
+				if (matrix[row + i][col - i] == object) {
+					chessObject++;
+				} else if (matrix[row + i][col - i] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row + i][col - i] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row + i + j, col - i - j)) {
+							if (matrix[row + i + j][col - i - j] == object) {
+								chessObject++;
+							} else if (matrix[row + i + j][col - i - j] == enemy) {
+								chessEnemy++;
+								break;
+							} else if (matrix[row + i + j][col - i - j] == enemy) {
+								chessEmpty++;
+								break;
+							}
+						} else {
+							chessEnemy++;
+							break;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		all: for (int i = 1; i < numWin; i++) {
+			if (checkCorrect(row - i, col + i)) {
+				if (matrix[row - i][col + i] == object) {
+					chessObject++;
+				} else if (matrix[row - i][col + i] == enemy) {
+					chessEnemy++;
+					break;
+				} else if (matrix[row - i][col + i] == vacancy) {
+					for (int j = 1; j < (numWin - chessObject); j++) {
+						if (checkCorrect(row - i - j, col + i + j)) {
+							if (matrix[row - i - j][col + i + j] == object) {
+								chessObject++;
+							} else if (matrix[row - i - j][col + i + j] == enemy) {
+								chessEnemy++;
+								break;
+							} else if (matrix[row - i - j][col + i + j] == vacancy) {
+								chessEmpty++;
+								break;
+							}
+						} else {
+							chessEnemy++;
+							break;
+						}
+					}
+					break all;
+				}
+			} else {
+				chessEnemy++;
+				break;
+			}
+		}
+		if (chessEnemy >= 2 && chessObject < numWin) {
+			return 0;
+		} else {
+			scoreAtck = Board.Attack[chessObject];
+			scoreDef = Board.Defen[chessEnemy + 1];
+			scoreDef += Board.Defen[chessEmpty + 1];
+			return scoreAtck - scoreDef;
+		}
 	}
 
 	public int scoreCountVerticalAtk(int row, int col, ConfigGame.Target target) {
@@ -361,6 +715,7 @@ public class Board {
 		if (object == 2) {
 			enemy = 1;
 		}
+
 		for (int i = row + 1; i < matrix.length; i++) {
 			if (checkCorrect(i, col) == true) {
 				if (matrix[i][col] == object && chessObject < numWin) {
@@ -406,7 +761,7 @@ public class Board {
 	public int scoreCountVerticalDef(int row, int col, ConfigGame.Target target) {
 		int scoreAtck = 0;
 		int scoreDef = 0;
-		int chessObject = 1;
+		int chessObject = 0;
 		int chessEnemy = 0;
 		int object = target.VALUE;
 		int enemy = 0;
@@ -430,26 +785,23 @@ public class Board {
 				break;
 			}
 		}
-		if (chessObject < 2) {
-			if (chessEnemy < numWin) {
-				for (int i = row - 1; i < matrix.length; i--) {
-					if (checkCorrect(i, col) == true) {
-						if (matrix[i][col] == enemy && chessEnemy < numWin) {
-							chessEnemy++;
-						} else if (matrix[i][col] == object) {
-							chessObject++;
-							break;
-						} else {
-							break;
-						}
-					} else {
-						break;
-					}
+
+		for (int i = row - 1; i < matrix.length; i--) {
+			if (checkCorrect(i, col) == true) {
+				if (matrix[i][col] == enemy && chessEnemy < numWin) {
+					chessEnemy++;
+				} else if (matrix[i][col] == object) {
+					chessObject++;
+					break;
+				} else {
+					break;
 				}
+			} else {
+				break;
 			}
 		}
 
-		scoreDef = Board.Defen[chessEnemy];
+		scoreDef = Board.Defen[chessEnemy + 1];
 		return scoreDef;
 
 	}
@@ -670,13 +1022,9 @@ public class Board {
 			}
 		}
 
-		if (chessObject == 2) {
-			return 0;
-		} else {
-			scoreDef = Board.Defen[chessEnemy + 1];
-			return scoreDef;
+		scoreDef = Board.Defen[chessEnemy + 1];
+		return scoreDef;
 
-		}
 	}
 
 	public int scoreCountReserveDiagonalAtk(int row, int col, ConfigGame.Target target) {
@@ -781,12 +1129,9 @@ public class Board {
 			}
 		}
 
-		if (chessObject == 2) {
-			return 0;
-		} else {
-			scoreDef = Board.Defen[chessEnemy + 1];
-			return scoreDef;
-		}
+		scoreDef = Board.Defen[chessEnemy + 1];
+		return scoreDef;
+
 	}
 
 }
