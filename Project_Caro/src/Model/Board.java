@@ -50,7 +50,7 @@ public class Board {
 		if (this.matrix[rowIndex][colIndex] == -1) {
 			return true;
 		} else {
-			
+
 			return false;
 		}
 
@@ -345,7 +345,6 @@ public class Board {
 		Defense += scoreCountVerticalDef(row, col, target);
 		Defense += scoreCountPrimaryDiagonalDef(row, col, target);
 		Defense += scoreCountReserveDiagonalDef(row, col, target);
-		System.out.println(Math.max(Attack, Defense));
 		return Math.max(Attack, Defense);
 	}
 
@@ -397,8 +396,8 @@ public class Board {
 			return 0;
 		} else {
 			scoreAtck = Board.Attack[chessObject];
-			scoreDef = Board.Defen[chessEnemy+3];
-		
+			scoreDef = Board.Defen[chessEnemy + 2];
+
 			return scoreAtck - scoreDef;
 		}
 
@@ -411,6 +410,12 @@ public class Board {
 		int chessEnemy = 0;
 		int object = target.VALUE;
 		int enemy = 0;
+		if (object == 1) {
+			enemy = 2;
+
+		} else {
+			enemy = 1;
+		}
 		for (int i = row + 1; i < matrix.length; i++) {
 			if (checkCorrect(i, col) == true) {
 				if (matrix[i][col] == enemy && chessEnemy < numWin) {
@@ -443,13 +448,9 @@ public class Board {
 				}
 			}
 		}
-		if (chessObject == 2) {
-			return 0;
-		} else {
-			scoreAtck = Board.Attack[chessEnemy];
-			scoreDef = Board.Defen[chessObject];
-			return scoreAtck - scoreDef;
-		}
+
+		scoreDef = Board.Defen[chessEnemy];
+		return scoreDef;
 
 	}
 
@@ -503,8 +504,10 @@ public class Board {
 			return 0;
 		} else {
 
-			scoreDef = Board.Defen[chessEnemy+1];
-			return scoreDef;
+			scoreAtck = Board.Attack[chessObject];
+			scoreDef = Board.Defen[chessEnemy + 2];
+
+			return scoreAtck - scoreDef;
 
 		}
 
@@ -555,13 +558,8 @@ public class Board {
 
 		}
 
-		if (chessObject == 2) {
-			return 0;
-		} else {
-			scoreDef = Board.Defen[chessEnemy+1];
-			return scoreDef;
-
-		}
+		scoreDef = Board.Defen[chessEnemy + 1];
+		return scoreDef;
 
 	}
 
@@ -676,7 +674,7 @@ public class Board {
 		if (chessObject == 2) {
 			return 0;
 		} else {
-			scoreDef = Board.Defen[chessEnemy+1];
+			scoreDef = Board.Defen[chessEnemy + 1];
 			return scoreDef;
 
 		}
@@ -787,7 +785,7 @@ public class Board {
 		if (chessObject == 2) {
 			return 0;
 		} else {
-			scoreDef = Board.Defen[chessEnemy+1];
+			scoreDef = Board.Defen[chessEnemy + 1];
 			return scoreDef;
 		}
 	}
