@@ -13,7 +13,7 @@ public class ConfigGame {
 	public static final int TIME_OF_TURN = 10;
 	public static final int DEPTH = 1;
 	public enum Target  {
-		X(1), O(2), NOT_THING(-1);
+		X(1), O(2), NOT_THING(0);
 		public Integer VALUE;
 		private Target(int value) {
 			this.VALUE=value;

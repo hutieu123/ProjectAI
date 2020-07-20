@@ -46,12 +46,12 @@ public class Agent {
 		return 0;
 	}
 
-	public Node minimaxlevel1(Board initial, int depth, ConfigGame.Target target) {
+	public Node minimaxlevel0(Board initial, int depth, ConfigGame.Target target) {
 		Node nodeinit = new Node();
 		nodeinit.setBoard(initial);
 		nodeinit.setTarget(target);
 		nodeinit.setChildrens();
-		long bestvalue = 0;
+		long bestvalue = Long.MIN_VALUE;
 		List<Node> childrens = nodeinit.getChildrens();
 		for (int i = 0; i < childrens.size(); i++) {
 			Node pro = childrens.get(i);
@@ -60,7 +60,13 @@ public class Agent {
 			childrens.set(i, pro);
 
 		}
+
 		for (int i = 0; i < childrens.size(); i++) {
+			int[] labeleuqual = childrens.get(i).getLabel();
+			if (labeleuqual[0] == 8 && labeleuqual[1] == 6) {
+				childrens.get(i).getBoard().printBoard();
+				System.out.println(childrens.get(i).getValue());
+			}
 			if (childrens.get(i).getValue() >= bestvalue) {
 				bestvalue = childrens.get(i).getValue();
 				nodeinit = childrens.get(i);
@@ -103,7 +109,7 @@ public class Agent {
 		//
 		// }
 		// }
-		Node node = minimaxlevel1(initial, depth, target);
+		Node node = minimaxlevel0(initial, depth, target);
 		bestLabel = node.getLabel();
 		return bestLabel;
 	}

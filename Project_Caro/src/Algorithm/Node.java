@@ -87,15 +87,14 @@ public class Node {
 				if (board.isValid(i, j) == true) {
 					Node node = new Node();
 					node.setTarget(target);
-					board.move(i, j, target);
-					node.setBoard(board);
+					Board newmove= board.move(i, j, target);
+					node.setBoard(newmove);
 					int[] label = new int[2];
 					label[0] = i;
 					label[1] = j;
 					node.setLabel(label);
 					addChild(node);
 				}
-
 			}
 		}
 

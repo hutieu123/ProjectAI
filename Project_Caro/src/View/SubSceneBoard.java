@@ -145,12 +145,10 @@ public class SubSceneBoard {
 					return;
 
 				}
-				System.out.println(status);
 				SubSceneBoard.this.count++;
 				controller.clock.setText(""+10);
 //				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
 				int[] location = getAgent().findBestMove(SubSceneBoard.this.getBoard(),4, ConfigGame.COMPUTER_TARGET );
-
 				if(location!=null) {
 					Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1], ConfigGame.COMPUTER_TARGET);
 					if(boardTry!=null) {
