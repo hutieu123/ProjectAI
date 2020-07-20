@@ -63,10 +63,14 @@ public class Agent {
 
 		for (int i = 0; i < childrens.size(); i++) {
 			int[] labeleuqual = childrens.get(i).getLabel();
-			if (labeleuqual[0] == 8 && labeleuqual[1] == 6) {
-				childrens.get(i).getBoard().printBoard();
-				System.out.println(childrens.get(i).getValue());
-			}
+//			if (labeleuqual[0] == 10 && labeleuqual[1] == 4) {
+//				childrens.get(i).getBoard().printBoard();
+//				System.out.println(childrens.get(i).getValue());
+//			}
+//			if (labeleuqual[0] == 9 && labeleuqual[1] == 5) {
+//				childrens.get(i).getBoard().printBoard();
+//				System.out.println(childrens.get(i).getValue());
+//			}
 			if (childrens.get(i).getValue() >= bestvalue) {
 				bestvalue = childrens.get(i).getValue();
 				nodeinit = childrens.get(i);

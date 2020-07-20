@@ -13,7 +13,7 @@ public class Board {
 	public static final long[] Attack = { 0, 90, 540, 2500, 15000, 12000, 95000 };
 	public static final long[] Empty = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18 };
 	public static final long[] Wall = { 15, 30, 45 };
-	public static final long[] Defen = { 0, 30, 270, 1000, 7000, 6500, 50000 };
+	public static final long[] Defen = { 0, 30, 240, 2000, 7000, 6500, 50000 };
 	public int numWin;
 	public int[][] matrix;
 	
@@ -644,6 +644,7 @@ public class Board {
 		if (chessEnemy >= 2 && chessObject < numWin) {
 			return 0;
 		} else {
+			
 			scoreAtck += Board.Attack[chessObject ];
 			scoreDef += Board.Defen[chessEnemy ];
 			scoreDef += Board.Empty[chessEmpty];
@@ -792,8 +793,7 @@ public class Board {
 			scoreDef = (long) (Board.Defen[chessEnemy] * (0.7));
 			scoreDef -= Board.Defen[chessObject + 1];
 		} else {
-			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.5));
-			scoreDef -= Board.Defen[chessObject + 1];
+			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.7));
 		}
 
 		return scoreDef;
@@ -851,8 +851,7 @@ public class Board {
 			scoreDef = (long) (Board.Defen[chessEnemy] * (0.7));
 			scoreDef -= Board.Defen[chessObject + 1];
 		} else {
-			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.5));
-			scoreDef -= Board.Defen[chessObject + 1];
+			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.7));
 		}
 		return scoreDef;
 
@@ -889,7 +888,7 @@ public class Board {
 
 		}
 
-		for (int i = 1; i < numWin; i++) {
+		for (int i = 1; i <= numWin; i++) {
 			int proRow = row - i;
 			int proCol = col - i;
 			if (checkCorrect(proRow, proCol) == true) {
@@ -912,8 +911,7 @@ public class Board {
 			scoreDef = (long) (Board.Defen[chessEnemy] * (0.7));
 			scoreDef -= Board.Defen[chessObject + 1];
 		} else {
-			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.5));
-			scoreDef -= Board.Defen[chessObject + 1];
+			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.7));
 		}
 
 		return scoreDef;
@@ -972,7 +970,7 @@ public class Board {
 			scoreDef = (long) (Board.Defen[chessEnemy] * (0.7));
 			scoreDef -= Board.Defen[chessObject + 1];
 		} else {
-			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.5));
+			scoreDef = (long) (Board.Defen[chessEnemy + 1]* (1.7));
 			scoreDef -= Board.Defen[chessObject + 1];
 		}
 
