@@ -232,19 +232,6 @@ public class Board {
 	public ConfigGame.Status getCurrentStatus(ConfigGame.Target target){
 		int numX= check(ConfigGame.Target.X);
 		int numO= check(ConfigGame.Target.O);
-		boolean stalemate=true;
-		LoopOne:
-		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {
-			for (int col_Index = 0; col_Index < matrix[row_Index].length; col_Index++) {
-				if(matrix[row_Index][col_Index]==ConfigGame.Target.NOT_THING.VALUE) {
-					stalemate=false;
-					break LoopOne;
-				}
-			}
-		}
-		if(stalemate) {
-			return ConfigGame.Status.STALEMATE;
-		}
 		switch (target) {
 		case X:
 			if(numX!=-1) return ConfigGame.Status.X_WIN_GAME;
@@ -259,11 +246,6 @@ public class Board {
 			break;
 		}
 		
-		return ConfigGame.Status.NOT_OVER;
-	}
-	public ConfigGame.StatusMinimax getCurrentStatusMinimax(ConfigGame.Target target){
-		int numX= check(ConfigGame.Target.X);
-		int numO= check(ConfigGame.Target.O);
 		boolean stalemate=true;
 		LoopOne:
 		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {
@@ -275,8 +257,15 @@ public class Board {
 			}
 		}
 		if(stalemate) {
-			return ConfigGame.StatusMinimax.STALEMATE;
+			return ConfigGame.Status.STALEMATE;
 		}
+		
+		return ConfigGame.Status.NOT_OVER;
+	}
+	public ConfigGame.StatusMinimax getCurrentStatusMinimax(ConfigGame.Target target){
+		int numX= check(ConfigGame.Target.X);
+		int numO= check(ConfigGame.Target.O);
+		boolean stalemate=true;
 		switch (target) {
 		case X:
 			if(numX!=-1) return ConfigGame.StatusMinimax.WIN_GAME;
@@ -290,8 +279,30 @@ public class Board {
 		default:
 			break;
 		}
+		LoopOne:
+		for (int row_Index = 0; row_Index < matrix.length; row_Index++) {
+			for (int col_Index = 0; col_Index < matrix[row_Index].length; col_Index++) {
+				if(matrix[row_Index][col_Index]==ConfigGame.Target.NOT_THING.VALUE) {
+					stalemate=false;
+					break LoopOne;
+				}
+			}
+		}
+		if(stalemate) {
+			return ConfigGame.StatusMinimax.STALEMATE;
+		}
+		
 		
 		return ConfigGame.StatusMinimax.NOT_OVER;
+	}
+	public void printMatrix() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				System.out.print(matrix[i][j]+"\t");
+			}
+			System.out.println();
+		}
+
 	}
 	
 

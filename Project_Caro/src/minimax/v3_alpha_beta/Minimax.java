@@ -2,7 +2,9 @@ package minimax.v3_alpha_beta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.ANode;
 import model.Agent;
@@ -14,14 +16,23 @@ import project.caro.config.ConfigGame.Target;
 public class Minimax implements Agent {
 	public Node initial=null;
 	public int depth;
-	private long alpha=Long.MIN_VALUE;
-	private long beta=Long.MAX_VALUE;
 	public Minimax(int depth) {
 		this.depth=depth;
 	}
 	
 	@Override
 	public int[] findBestMove(Board board, Target target, int depth) {
+		boolean clean=true;
+		Loop1:
+		for (int i = 0; i < board.matrix.length; i++) {
+			for (int j = 0; j < board.matrix[i].length; j++) {
+				if(board.matrix[i][j]!=ConfigGame.Target.NOT_THING.VALUE) {
+					clean=false;
+					break Loop1;
+				}
+			}
+		}
+		if(clean)return new int[] {board.matrix.length/2, board.matrix[0].length/2};
 		this.initial=new Node(board, target, true, 0);
 		run(initial);
 		Node goal = initial.findBestMove();
@@ -39,33 +50,47 @@ public class Minimax implements Agent {
 	public void run(Node initial) {
 		this.initial = initial;
 		Node focus=this.initial.initLeaf(this.depth);
-		if(focus.isMaxiumzing) {
-			if(this.beta>focus.value)
-			this.beta = focus.value;
-//			System.out.println(beta);
-		}else {
-			if(this.alpha<focus.value)
-			this.alpha=focus.value;
+		if(focus.parent.value==null) {
+			focus.parent.value=focus.value;
 		}
 		while(focus.depth!=0) {
 			Node nodeSameDepth=focus.initNodeSameDepth(focus.depth, focus.rowIndexBefore, focus.colIndexBefore);
 			while(nodeSameDepth!=null) {
-				focus=nodeSameDepth.initLeaf(this.depth);
+				if(nodeSameDepth.value==null) {
+					focus=nodeSameDepth.initLeaf(this.depth);
+					
+				}else {
+					focus = nodeSameDepth;
+					System.out.println("Run");
+				}
 				if(focus.isMaxiumzing) {
-					if(this.beta>focus.value)
-					this.beta = focus.value;else {
-						System.out.println("Cut");
+					if(focus.parent.value==null) {
+						focus.parent.value=focus.value;
+					}
+					if(focus.parent.value>focus.value) {
+						focus.parent.value=focus.value;
+					}
+					else {
+//						System.out.println("Cut");
 						break;
 					}
-//					System.out.println(beta);
 				}else {
-					if(this.alpha<focus.value)
-					this.alpha=focus.value;else {
-						System.out.println("Cut");
+					if(focus.parent.value==null) {
+						focus.parent.value=focus.value;
+					}
+					if(focus.parent.value<focus.value) {
+						focus.parent.value=focus.value;
+					}
+					else {
+//						System.out.println("Cut");
 						break;
 					}
 				}
+				if(nodeSameDepth.value==null) {
+					System.out.println("null");
+				}
 				nodeSameDepth=focus.initNodeSameDepth(focus.depth, focus.rowIndexBefore, focus.colIndexBefore);
+				
 			}
 			focus=focus.parent;
 		}

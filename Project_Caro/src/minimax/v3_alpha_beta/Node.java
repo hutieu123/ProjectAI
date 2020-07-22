@@ -10,7 +10,10 @@ import project.caro.config.ConfigGame.StatusMinimax;
 import project.caro.config.ConfigGame.Target;
 
 public class Node extends ANode {
-	public long value;
+	public int numWin;
+	private static final long[] Attack = { 0, 3, 30, 200, 1500, 12000, 95000 };
+	private static final long[] Defen = { 0, 1, 10, 150, 700, 6500, 50000 };
+	public Long value;
 	public Node parent;
 	ConfigGame.Target target;
 	List<Node> neighbours = new ArrayList<Node>();
@@ -32,11 +35,7 @@ public class Node extends ANode {
 		this.colIndexBefore=col_Index;
 		this.rowIndexBefore=row_Index;
 		this.depth=depth;
-		this.value=Math.abs(this.board.matrix.length/2-col_Index)*4+
-		Math.abs(this.board.matrix.length/2-row_Index)*4;
-		if(!isMaxiumzing) {
-			this.value=-this.value;
-		}
+		this.value=null;
 	}
 	public List<Node> getNeighbours(){
 		return this.neighbours;
@@ -54,22 +53,25 @@ public class Node extends ANode {
 				bestMove=n;
 				continue;
 			}
-			if(bestMove.value<n.value) {
-				bestMove=n;
+			if(n.value!=null) {
+				
+				if(bestMove.value<n.value) {
+					bestMove=n;
+				}
 			}
 		}
 		return bestMove;
 	}
 	@Override
 	public long heuristic(Target target) {
-		int h=0;
+		long h=0;
 		for (int rowIndex = 0; rowIndex < board.matrix.length; rowIndex++) {
 			for (int colIndex = 0; colIndex <  board.matrix[rowIndex].length; colIndex++) {
 				if( board.matrix[rowIndex][colIndex]==target.VALUE) {
-					h+=50* board.count( board.matrix, new int[] {rowIndex,colIndex}, 2);
+					h+=Attack[board.count( board.matrix, new int[] {rowIndex,colIndex}, 2)];
 				}else
 				if( board.matrix[rowIndex][colIndex]==ConfigGame.Target.NOT_THING.VALUE){}else {
-					h-=49* board.count( board.matrix, new int[] {rowIndex,colIndex}, 2);
+					h-=Defen[board.count( board.matrix, new int[] {rowIndex,colIndex}, 2)];
 				}
 			}
 		}
@@ -79,16 +81,24 @@ public class Node extends ANode {
 		StatusMinimax status = this.board.getCurrentStatusMinimax(target);
 		switch (status) {
 		case WIN_GAME:
-			this.value=1000-depth;
+			this.value=Long.valueOf(95000-depth);
 			return this;
 		case LOSE_GAME:
-			this.value=-1000+depth;
+			this.value=Long.valueOf(-98000+depth);
+			return this;
+		case STALEMATE:
+			this.value=Long.valueOf(9000-depth);
 			return this;
 		case NOT_OVER:
 			if(depthM==this.depth&&!this.board.isOver()) {
-				this.value+=this.heuristic(target);
+				long tmp=0;
+				if(this.value!=null) {
+					tmp=this.value.longValue();
+				}
+				this.value=Long.valueOf(this.heuristic(target)+tmp);
 				return this;
 			}
+			
 			int row_Index=-1;
 			int col_Index=-1;
 			Loop1:

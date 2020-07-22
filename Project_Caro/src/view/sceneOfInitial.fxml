@@ -46,6 +46,14 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                   </Button>
+                  <Button  mnemonicParsing="false" onAction="#clickToTest4" prefHeight="50.0" text="Test Minimax alpha beta v4">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </Button>
                   <Button  mnemonicParsing="false" onAction="#clickToStartTicTacToe" prefHeight="50.0" text="Tic Tac Toe">
                      <padding>
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />

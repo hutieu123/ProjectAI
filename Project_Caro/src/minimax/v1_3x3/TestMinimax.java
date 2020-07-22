@@ -85,11 +85,31 @@ public class TestMinimax {
 		Node node = null;
 		for(int i=0; i<5;i++) {
 			node=minimax.initial.getNeighbours().get(i);
-			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+//			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
+			
+		}
+//		System.out.println(Arrays.toString(move));
+		assertArrayEquals(new int[] {2,2}, move);
+	}
+	@Test
+	public void Test6() {
+		Board board = new Board(3, 3, 3);
+		board.matrix=new int[][] {
+			{-1,1,-1},
+			{-1,1,2}
+			,{-1,2,-1}};
+		Target turn= Target.X;
+		Minimax minimax= new Minimax();
+		int[] move =minimax.findBestMove(board, turn, 0);
+		assertNotNull(move);
+		Node node = null;
+		for(int i=0; i<5;i++) {
+			node=minimax.initial.getNeighbours().get(i);
+//			System.out.println(i+":"+node.rowIndexBefore+":"+node.colIndexBefore+":"+node.value);
 			
 		}
 		System.out.println(Arrays.toString(move));
-		assertArrayEquals(new int[] {2,2}, move);
+		assertArrayEquals(new int[] {2,0}, move);
 	}
 
 }

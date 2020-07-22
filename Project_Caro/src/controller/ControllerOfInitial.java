@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import minimax.v3_alpha_beta.Minimax;
 import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
@@ -65,9 +66,10 @@ public class ControllerOfInitial implements Initializable {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(3, 3,3));
 			//Set Agent
-			subSceneBoard.setAgent(new minimax.v1_3x3.Minimax());
+//			subSceneBoard.setAgent(new minimax.v1_3x3.Minimax());
 //			subSceneBoard.setAgent(new minimax.v2_NotAlpha_Beta.Minimax_v2(1));
 //			subSceneBoard.setAgent(new algorithm.Minimax(1));
+			subSceneBoard.setAgent(new minimax.v5_alpha_beta.Minimax(20));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
@@ -125,10 +127,42 @@ public class ControllerOfInitial implements Initializable {
 			BorderPane root = loader.load();
 //			minimax.v3_alpha_beta.Minimax test=new minimax.v3_alpha_beta.Minimax(ConfigGame.DEPTH);
 //			test.
-			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(7,7,ConfigGame.NUMBER_WIN));
+			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(3,3,3));
 //			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(ConfigGame.NUMBER_ROWS,ConfigGame.NUMBER_COLS,ConfigGame.NUMBER_WIN));
 			//Set Agent
-			subSceneBoard.setAgent(new minimax.v3_alpha_beta.Minimax(ConfigGame.DEPTH));
+			subSceneBoard.setAgent(new minimax.v3_alpha_beta.Minimax(10));
+			root.setCenter(subSceneBoard.getSubScene());
+			ControllerGamePlayer c = loader.getController();
+			c.setSubSceneBoard(subSceneBoard);
+			c.setPrimaryStage(primaryStage);
+			
+			//Add listenerMouseClick For One People Again Agent
+			
+			c.addListenerMouseClickForOnePeople();
+			//Set computer first
+			c.setTurnFirst(ConfigGame.Target.X, false);//isHuman=true, target=X, => player hit X, computer hit O
+			Scene scene = new Scene(root);
+			primaryStage.hide();
+			primaryStage.setScene(scene);
+			primaryStage.centerOnScreen();
+			primaryStage.show();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+	}
+	public void clickToTest4(ActionEvent actionEvent) {
+		try {
+			Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("../view/sceneOfGamePlay.fxml"));
+			BorderPane root = loader.load();
+//			minimax.v3_alpha_beta.Minimax test=new minimax.v3_alpha_beta.Minimax(ConfigGame.DEPTH);
+//			test.
+			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(ConfigGame.NUMBER_ROWS,ConfigGame.NUMBER_COLS,ConfigGame.NUMBER_WIN));
+//			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(ConfigGame.NUMBER_ROWS,ConfigGame.NUMBER_COLS,ConfigGame.NUMBER_WIN));
+			//Set Agent
+			subSceneBoard.setAgent(new minimax.v5_alpha_beta.Minimax(ConfigGame.DEPTH));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 			c.setSubSceneBoard(subSceneBoard);
