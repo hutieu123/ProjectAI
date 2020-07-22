@@ -12,15 +12,16 @@ public class ConfigGame {
 	
 	public static final int DRAW = 40;
 	public static final int TIME_OF_TURN = 30;
-	public static final int DEPTH = 1;
-	public enum Target  {
+	public static final int DEPTH = 2;
+	public static enum Mode{TWO_PEOPLE, AGAIN_COMPUTER} 
+	public static enum Target  {
 		X(1), O(2), NOT_THING(-1);
 		public Integer VALUE;
 		private Target(int value) {
 			this.VALUE=value;
 		}
 	};
-	public enum Status{X_WIN_GAME,X_LOSE_GAME,O_WIN_GAME,O_LOSE_GAME, NOT_OVER, STALEMATE};
-	public enum StatusMinimax{WIN_GAME, LOSE_GAME, NOT_OVER, STALEMATE};
+	public static enum Status{X_WIN_GAME,X_LOSE_GAME,O_WIN_GAME,O_LOSE_GAME, NOT_OVER, STALEMATE};
+	public static enum StatusMinimax{WIN_GAME, LOSE_GAME, NOT_OVER, STALEMATE};
 	
 }

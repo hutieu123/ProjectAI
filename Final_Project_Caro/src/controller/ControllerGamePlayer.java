@@ -85,62 +85,66 @@ public class ControllerGamePlayer implements Initializable {
 				}
 			}
 		});
-		this.clockThread = new Thread(new Task<Void>() {
+		this.clockThread = new Thread(new Runnable() {
+			
 			@Override
-			protected Void call() throws Exception {
+			public void run() {
+				int timeDelay=250;
 				while (ControllerGamePlayer.this.clockRunnging) {
 					try {
+						
 						Platform.runLater(new Runnable() {
 							@Override
 							public void run() {
 								
-								ControllerGamePlayer.this.clock.setText("" + ((ControllerGamePlayer.this.clockTime-=1)/1000));
+								ControllerGamePlayer.this.clock.setText("" + ((ControllerGamePlayer.this.clockTime-=timeDelay)/1000));
 								ControllerGamePlayer.this.changeTarget(ControllerGamePlayer.this.subSceneBoard.getTurn());
-								if (ControllerGamePlayer.this.clockTime == 0) {
-									ControllerGamePlayer.this.clockRunnging = false;
-									System.out.println("Time Out.");
-									ConfigGame.Target target = ControllerGamePlayer.this.subSceneBoard.getTurn();
-									ControllerGamePlayer.this.subSceneBoard.removeAllListenerMouseClick();
-									switch (target) {
-									case X:
-										String strX = "X Lose.";
-										System.out.println(strX);
-										ControllerGamePlayer.this.clock.setText(strX);
-										try {
-											displayFinishScene("O");
-										} catch (IOException e) {
-											e.printStackTrace();
-										}
-										break;
-									case O:
-										String strO = "O Lose.";
-										System.out.println(strO);
-										ControllerGamePlayer.this.clock.setText(strO);
-										try {
-											displayFinishScene("X");
-										} catch (IOException e) {
-											e.printStackTrace();
-										}
-										break;
-
-									default:
-										break;
-									}
-									ControllerGamePlayer.this.changeTarget(ControllerGamePlayer.this.subSceneBoard.getTurn());
-								}
+//								System.out.println(ControllerGamePlayer.this.subSceneBoard.getTurn());
+//								System.out.println("change");
 							}
 						});
+						if (ControllerGamePlayer.this.clockTime == 0) {
+							ControllerGamePlayer.this.clockRunnging = false;
+							System.out.println("Time Out.");
+							ConfigGame.Target target = ControllerGamePlayer.this.subSceneBoard.getTurn();
+							ControllerGamePlayer.this.subSceneBoard.removeAllListenerMouseClick();
+							switch (target) {
+							case X:
+								String strX = "X Lose.";
+								System.out.println(strX);
+								ControllerGamePlayer.this.clock.setText(strX);
+								try {
+									displayFinishScene("O");
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								break;
+							case O:
+								String strO = "O Lose.";
+								System.out.println(strO);
+								ControllerGamePlayer.this.clock.setText(strO);
+								try {
+									displayFinishScene("X");
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+								break;
 
-						Thread.sleep(1);
+							default:
+								break;
+							}
+						}
+						Thread.sleep(timeDelay);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
+						
 					}
 
 				}
-
-				return null;
+				
 			}
 		});
+		//this.clockThread.setDaemon(true);
 		clockThread.start();
 
 	}
@@ -209,10 +213,17 @@ public class ControllerGamePlayer implements Initializable {
 				}
 			}
 			this.clockTime=ConfigGame.TIME_TURN;
+			this.subSceneBoard.count++;
+			this.subSceneBoard.turnListen=1;
+			
 		}else {
 			ConfigGame.PLAYER_TARGET=target;
 			ConfigGame.COMPUTER_TARGET=(target==Target.O)?Target.X:Target.O;;
+			this.subSceneBoard.turnListen=0;
 		}
+		this.subSceneBoard.targetFirst= target;
+		
+		//this.subSceneBoard.mode = ConfigGame.Mode.AGAIN_COMPUTER;
 		
 	}
 	public Group paintO() {

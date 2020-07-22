@@ -69,7 +69,7 @@ public class Minimax implements Agent{
 	}
 	public int[] findBestMove(Board initial, ConfigGame.Target target) {
 		int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
-		int bestVal = alpha_beta(initial,alpha, beta, depth,target);
+		int bestVal = alpha_beta(initial,alpha, beta, this.depth,target);
 		ConfigGame.Target nextPlayer;
 		if(target == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
 		else nextPlayer = ConfigGame.Target.O;

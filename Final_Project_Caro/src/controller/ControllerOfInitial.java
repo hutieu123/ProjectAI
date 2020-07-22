@@ -36,6 +36,7 @@ public class ControllerOfInitial implements Initializable {
 			
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
+			
 			c.setPrimaryStage(primaryStage);
 			c.setSubSceneBoard(subSceneBoard);
 			
@@ -64,7 +65,7 @@ public void clickToStartAgainComputer(ActionEvent actionEvent) {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(15,15,5));
 			//Set Agent
-			minimax.Minimax agent= new minimax.Minimax(0);/////////////////
+			minimax.Minimax agent= new minimax.Minimax(ConfigGame.DEPTH);/////////////////
 			subSceneBoard.setAgent(agent);
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
