@@ -51,19 +51,30 @@ public class SubSceneBoard {
 	public boolean move(int rows, int cols,ConfigGame.Target target){
 		return this.getBoard().move(rows, cols, target)!=null;
 	}
-
+	public void paintO(Group group,int row_index, int col_index) {
+		Group o = new Group();
+		Circle circle= new Circle(ConfigGame.DRAW,null);
+		circle.setStroke(Color.LAWNGREEN);
+		circle.setStrokeWidth(5.0);
+		o.getChildren().add(circle);
+		o.setTranslateX(col_index*ConfigGame.DRAW+(ConfigGame.DRAW/2));
+		o.setTranslateY(row_index*ConfigGame.DRAW+(ConfigGame.DRAW/2));
+		o.setScaleX(0.4);
+		o.setScaleY(0.4);
+		group.getChildren().add(o);
+	}
 	public void paintX(Group group,int row_index, int col_index) {
 		Group x = new Group();
-		Line line1 = new Line(0, 0, 50, 50);
-		Line line2 = new Line(50, 0, 0, 50);
+		Line line1 = new Line(0, 0, ConfigGame.DRAW, ConfigGame.DRAW);
+		Line line2 = new Line(ConfigGame.DRAW, 0, 0, ConfigGame.DRAW);
 		line1.setStroke(Color.ORANGERED);
 		line1.setStrokeWidth(5.0);
 		line2.setStroke(Color.ORANGERED);
 		line2.setStrokeWidth(5.0);
 		x.getChildren().add(line1);
 		x.getChildren().add(line2);
-		x.setTranslateX(col_index*50);
-		x.setTranslateY(row_index*50);
+		x.setTranslateX(col_index*ConfigGame.DRAW);
+		x.setTranslateY(row_index*ConfigGame.DRAW);
 		x.setScaleX(0.5);
 		x.setScaleY(0.5);
 		group.getChildren().add(x);
@@ -71,32 +82,10 @@ public class SubSceneBoard {
 	public void paint(Group group,int row_index, int col_index, ConfigGame.Target target) {
 		switch (target) {
 		case X:
-			Group x = new Group();
-			Line line1 = new Line(0, 0, ConfigGame.DRAW, ConfigGame.DRAW);
-			Line line2 = new Line(ConfigGame.DRAW, 0, 0, ConfigGame.DRAW);
-			line1.setStroke(Color.ORANGERED);
-			line1.setStrokeWidth(5.0);
-			line2.setStroke(Color.ORANGERED);
-			line2.setStrokeWidth(5.0);
-			x.getChildren().add(line1);
-			x.getChildren().add(line2);
-			x.setTranslateX(col_index*ConfigGame.DRAW);
-			x.setTranslateY(row_index*ConfigGame.DRAW);
-			x.setScaleX(0.5);
-			x.setScaleY(0.5);
-			group.getChildren().add(x);
+			paintX(group, row_index, col_index);
 			break;
 		case O:
-			Group o = new Group();
-			Circle circle= new Circle(ConfigGame.DRAW,null);
-			circle.setStroke(Color.LAWNGREEN);
-			circle.setStrokeWidth(5.0);
-			o.getChildren().add(circle);
-			o.setTranslateX(col_index*ConfigGame.DRAW+(ConfigGame.DRAW/2));
-			o.setTranslateY(row_index*ConfigGame.DRAW+(ConfigGame.DRAW/2));
-			o.setScaleX(0.4);
-			o.setScaleY(0.4);
-			group.getChildren().add(o);
+			paintO(group, row_index, col_index);
 			break;
 
 		default:
@@ -105,18 +94,7 @@ public class SubSceneBoard {
 		
 	}
 	boolean running=true;
-	public void paintO(Group group,int row_index, int col_index) {
-		Group o = new Group();
-		Circle circle= new Circle(50,null);
-		circle.setStroke(Color.LAWNGREEN);
-		circle.setStrokeWidth(5.0);
-		o.getChildren().add(circle);
-		o.setTranslateX(col_index*50+25);
-		o.setTranslateY(row_index*50+25);
-		o.setScaleX(0.4);
-		o.setScaleY(0.4);
-		group.getChildren().add(o);
-	}
+	
 
 	public void addListenerMouseClickForOnePeople() {
 		group.setPickOnBounds(true);
@@ -158,12 +136,18 @@ public class SubSceneBoard {
 					//TODO display SceneFinish with stalemate
 
 				}
+				
+				controller.clockTime=ConfigGame.TIME_TURN;
 				SubSceneBoard.this.count++;
-				controller.clock.setText(""+30);
+
+				
+				
+				
 				Platform.runLater(new Runnable() {
 					
 					@Override
 					public void run() {
+						
 						if(!running)return;	
 
 						int[] location = minmax.findBestMove(SubSceneBoard.this.getBoard(), ConfigGame.COMPUTER_TARGET, ConfigGame.DEPTH);
@@ -185,7 +169,7 @@ public class SubSceneBoard {
 							running=false;
 
 						}
-						controller.clock.setText(""+30);
+						controller.clockTime=ConfigGame.TIME_TURN;
 						
 					}
 				});

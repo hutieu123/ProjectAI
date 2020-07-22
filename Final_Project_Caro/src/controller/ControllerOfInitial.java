@@ -17,7 +17,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import minimax.v4_heuristic_notalpha.minimax;
 import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
@@ -57,7 +56,7 @@ public class ControllerOfInitial implements Initializable {
 		}
 
 	}
-public void clickToTest2(ActionEvent actionEvent) {
+public void clickToStartAgainComputer(ActionEvent actionEvent) {
 		try {
 			Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 			FXMLLoader loader = new FXMLLoader();
@@ -65,7 +64,7 @@ public void clickToTest2(ActionEvent actionEvent) {
 			BorderPane root = loader.load();
 			SubSceneBoard subSceneBoard = new SubSceneBoard(new Board(15,15,5));
 			//Set Agent
-			minimax agent= new minimax();/////////////////
+			minimax.Minimax agent= new minimax.Minimax(0);/////////////////
 			subSceneBoard.setAgent(agent);
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();

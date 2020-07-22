@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import minimax.v4_heuristic_notalpha.*;
 import model.Board;
 import project.caro.config.ConfigGame;
 import view.SubSceneBoard;
@@ -39,7 +38,7 @@ public class ControllerFinish {
 			SubSceneBoard subSceneBoard = new SubSceneBoard(
 					new Board(ConfigGame.NUMBER_ROWS, ConfigGame.NUMBER_COLS, ConfigGame.NUMBER_WIN));
 			// Set Agent
-			subSceneBoard.setAgent(new minimax());
+			subSceneBoard.setAgent(new minimax.Minimax(ConfigGame.DEPTH));
 			root.setCenter(subSceneBoard.getSubScene());
 			ControllerGamePlayer c = loader.getController();
 

@@ -10,10 +10,16 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import minimax.v4_heuristic_notalpha.*;
@@ -26,7 +32,7 @@ public class ControllerGamePlayer implements Initializable {
 	@FXML
 	public Label clock;
 	@FXML
-	VBox vbox;
+	AnchorPane showTarget;
 	Node initial = null;
 	SubSceneBoard subSceneBoard = null;
 	private boolean clockRunnging = true;
@@ -47,21 +53,50 @@ public class ControllerGamePlayer implements Initializable {
 	}
 
 	public Thread clockThread;
-
+	private Group x;
+	private Group o;
+	private Group groupShowTarget;
+	public int clockTime = ConfigGame.TIME_TURN;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ControllerGamePlayer.this.groupShowTarget = new Group();
+				ControllerGamePlayer.this.x = ControllerGamePlayer.this.paintX();
+				ControllerGamePlayer.this.o = ControllerGamePlayer.this.paintO();
+				SubScene ss=new SubScene(ControllerGamePlayer.this.groupShowTarget, ControllerGamePlayer.this.showTarget.getWidth(), ControllerGamePlayer.this.showTarget.getHeight());
+//				x.sca
+				ControllerGamePlayer.this.showTarget.getChildren().add(ss);
+				
+				ConfigGame.Target target=ControllerGamePlayer.this.subSceneBoard.getTurn();
+				switch (target) {
+				case X:
+					ControllerGamePlayer.this.groupShowTarget.getChildren().add(ControllerGamePlayer.this.x);
+					break;
+				case O:
+					ControllerGamePlayer.this.groupShowTarget.getChildren().add(ControllerGamePlayer.this.o);
+					break;
+
+				default:
+					break;
+				}
+			}
+		});
 		this.clockThread = new Thread(new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
 				while (ControllerGamePlayer.this.clockRunnging) {
 					try {
 						Platform.runLater(new Runnable() {
-
 							@Override
 							public void run() {
-								int time = Integer.parseInt(ControllerGamePlayer.this.clock.getText());
-								ControllerGamePlayer.this.clock.setText("" + --time);
-								if (time == 0) {
+								
+								ControllerGamePlayer.this.clock.setText("" + ((ControllerGamePlayer.this.clockTime-=1)/1000));
+								ControllerGamePlayer.this.changeTarget(ControllerGamePlayer.this.subSceneBoard.getTurn());
+								if (ControllerGamePlayer.this.clockTime == 0) {
 									ControllerGamePlayer.this.clockRunnging = false;
 									System.out.println("Time Out.");
 									ConfigGame.Target target = ControllerGamePlayer.this.subSceneBoard.getTurn();
@@ -91,11 +126,12 @@ public class ControllerGamePlayer implements Initializable {
 									default:
 										break;
 									}
+									ControllerGamePlayer.this.changeTarget(ControllerGamePlayer.this.subSceneBoard.getTurn());
 								}
 							}
 						});
 
-						Thread.sleep(1000);
+						Thread.sleep(1);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -161,9 +197,10 @@ public class ControllerGamePlayer implements Initializable {
 		if(!isHuman) {
 			ConfigGame.COMPUTER_TARGET=target;
 			ConfigGame.PLAYER_TARGET=(target==Target.O)?Target.X:Target.O;;
+			
 			//this.subSceneBoard.getAgent().
-			this.clock.setText(""+30);
-			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), target, 0);
+			this.clockTime=ConfigGame.TIME_TURN;
+			int[] location = subSceneBoard.getAgent().findBestMove(subSceneBoard.getBoard(), target);
 			if(location!=null) {
 				Board boardTry = subSceneBoard.getBoard().move(location[0], location[1], target);
 				if(boardTry!=null) {
@@ -171,10 +208,66 @@ public class ControllerGamePlayer implements Initializable {
 					subSceneBoard.paint(subSceneBoard.getGroup(), location[0], location[1], target);
 				}
 			}
-			this.clock.setText(""+30);
+			this.clockTime=ConfigGame.TIME_TURN;
 		}else {
 			ConfigGame.PLAYER_TARGET=target;
 			ConfigGame.COMPUTER_TARGET=(target==Target.O)?Target.X:Target.O;;
+		}
+		
+	}
+	public Group paintO() {
+		Group o = new Group();
+		Circle circle= new Circle(ConfigGame.DRAW,null);
+		circle.setStroke(Color.LAWNGREEN);
+		circle.setStrokeWidth(5.0);
+		o.getChildren().add(circle);
+		o.setTranslateX(ConfigGame.DRAW+(ConfigGame.DRAW/2));
+		o.setTranslateY(ConfigGame.DRAW+(ConfigGame.DRAW/2));
+		o.setScaleX(0.4);
+		o.setScaleY(0.4);
+		return o;
+	}
+	public Group paintX() {
+		Group x = new Group();
+		Line line1 = new Line(0, 0, ConfigGame.DRAW, ConfigGame.DRAW);
+		Line line2 = new Line(ConfigGame.DRAW, 0, 0, ConfigGame.DRAW);
+		line1.setStroke(Color.ORANGERED);
+		line1.setStrokeWidth(5.0);
+		line2.setStroke(Color.ORANGERED);
+		line2.setStrokeWidth(5.0);
+		x.getChildren().add(line1);
+		x.getChildren().add(line2);
+		x.setTranslateX(ConfigGame.DRAW);
+		x.setTranslateY(ConfigGame.DRAW);
+		x.setScaleX(0.5);
+		x.setScaleY(0.5);
+		return x;
+	}
+	public void changeTarget(ConfigGame.Target target) {
+		switch (target) {
+		case X:
+			if(groupShowTarget.getChildren().contains(o)) {
+				groupShowTarget.getChildren().remove(o);
+				
+			}
+			if(!groupShowTarget.getChildren().contains(x)) {
+				groupShowTarget.getChildren().add(x);
+			}
+			
+			break;
+		case O:
+			if(groupShowTarget.getChildren().contains(x)) {
+				groupShowTarget.getChildren().remove(x);
+				
+			}
+			if(!groupShowTarget.getChildren().contains(o)) {
+				groupShowTarget.getChildren().add(o);
+			}
+			
+			break;
+
+		default:
+			break;
 		}
 		
 	}

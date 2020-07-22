@@ -1,17 +1,20 @@
-package minimax.v4_heuristic_notalpha;
+package minimax;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 import minimax.v4_heuristic_notalpha.*;
+import model.Agent;
 import model.Board;
 import project.caro.config.ConfigGame;
 
-public class minimax implements Agent{
+public class Minimax implements Agent{
 	private Node lastNode;
-	public minimax(){
+	private int depth;
+	public Minimax(int depth){
 		this.lastNode = null;
+		this.depth=depth;
 	}
 	public int minimax(Node node,  int alpha, int beta, int depth, boolean isMaxPlayer) {
 		List<Node> listNeighbours = node.getNeighbours();
@@ -64,7 +67,7 @@ public class minimax implements Agent{
 		}
 		return result;
 	}
-	public int[] findBestMove(Board initial, ConfigGame.Target target, int depth) {
+	public int[] findBestMove(Board initial, ConfigGame.Target target) {
 		int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
 		int bestVal = alpha_beta(initial,alpha, beta, depth,target);
 		ConfigGame.Target nextPlayer;
@@ -74,9 +77,9 @@ public class minimax implements Agent{
 		Node node = new Node(initial, nextPlayer);
 		node.getNeighbours();
 		Point p = null;
-		for (Node n : node.mapPoints.keySet()) {
+		for (Node n : node.getMapPoints().keySet()) {
 			if(n.getStateBoard().getHeuristic() == bestVal)
-				p = node.mapPoints.get(n);
+				p = node.getMapPoints().get(n);
 		} 
 		int[] result = {p.x,p.y};
 		return result;

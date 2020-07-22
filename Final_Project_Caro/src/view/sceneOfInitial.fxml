@@ -22,7 +22,7 @@
                         <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                      </padding>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#clickToTest2" prefHeight="50.0" text="Test Minimax Algorihm">
+                  <Button mnemonicParsing="false" onAction="#clickToStartAgainComputer" prefHeight="50.0" text="Test Minimax Algorihm">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>

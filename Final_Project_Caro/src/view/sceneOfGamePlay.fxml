@@ -11,8 +11,9 @@
 	   <AnchorPane prefHeight="800.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
 	</center>
    <left>
-      <VBox fx:id="vbox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
+            <AnchorPane fx:id="showTarget" prefHeight="110.0" prefWidth="106.0" />
             <Label fx:id="clock" alignment="CENTER" prefHeight="110.0" prefWidth="106.0" text="30" textAlignment="CENTER" />
          </children>
       </VBox>
