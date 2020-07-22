@@ -76,12 +76,12 @@ public class Minimax implements Agent{
 		
 		Node node = new Node(initial, nextPlayer);
 		node.getNeighbours();
-		Point p = null;
+		Location p = null;
 		for (Node n : node.getMapPoints().keySet()) {
 			if(n.getStateBoard().getHeuristic() == bestVal)
 				p = node.getMapPoints().get(n);
 		} 
-		int[] result = {p.x,p.y};
+		int[] result = {p.row,p.col};
 		return result;
 	}
 	

@@ -1,6 +1,5 @@
 package minimax;
 
-import java.awt.Point;
 import java.util.*;
 
 import model.Board;
@@ -14,9 +13,9 @@ public class Node {
 	private Board scoreBoard;
 	private Node parent;
 
-	private List<Point> listPointCanHit = new ArrayList<>();
+	private List<Location> listPointCanHit = new ArrayList<>();
 	private static Random rd = new Random();
-	private Map<Node, Point> mapPoints;
+	private Map<Node, Location> mapPoints;
 	
 	private static int[] AScore = { 0, 4, 27, 256, 1458 };
 	private static int[] DScore = { 0, 2, 19, 99, 769 };
@@ -65,10 +64,10 @@ public class Node {
 		this.neighbours.add(neighbourNode);
 	}
 
-	public int heuristic(Board board, Point point, int player) {
+	public int heuristic(Board board, Location point, int player) {
 		int heuristic = 0;
 		
-		return heuristic = scoreBoard.matrix[point.x][point.y];
+		return heuristic = scoreBoard.matrix[point.row][point.col];
 	}
 
 	public List<Node> getNeighbours() {
@@ -76,7 +75,7 @@ public class Node {
 		for (int i = 0; i < stateBoard.matrix.length; i++) {
 			for (int j = 0; j < stateBoard.matrix[0].length; j++) {
 				if (stateBoard.matrix[i][j] == -1) {
-					Point p = new Point(i, j);
+					Location p = new Location(i, j);
 					listPointCanHit.add(p);
 				}
 			}
@@ -85,14 +84,14 @@ public class Node {
 		while (!listPointCanHit.isEmpty()) {
 			// chon ngau nhien o con trong
 			int index = rd.nextInt(listPointCanHit.size());
-			Point p = listPointCanHit.get(index);
+			Location p = listPointCanHit.get(index);
 			ConfigGame.Target nextPlayer;
 			
 			if(player == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
 			else nextPlayer = ConfigGame.Target.O;
 			
 			int heuristic = this.heuristic(stateBoard, p, nextPlayer.VALUE);// tim heuristic
-			Board newState = stateBoard.move(p.x, p.y, nextPlayer);// tao trang thai moi
+			Board newState = stateBoard.move(p.row, p.col, nextPlayer);// tao trang thai moi
 			
 			newState.setHeuristic(heuristic);
 			Node node = new Node(newState, nextPlayer);
@@ -244,7 +243,7 @@ public class Node {
 	}
 
 
-	public Map<Node, Point> getMapPoints() {
+	public Map<Node, Location> getMapPoints() {
 		return mapPoints;
 	}
 

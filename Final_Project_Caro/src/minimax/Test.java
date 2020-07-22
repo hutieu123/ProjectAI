@@ -33,7 +33,7 @@ public class Test {
 		
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
-				Point point = new Point(i,j);
+				Location point = new Location(i,j);
 				System.out.print("  ("+i+","+j+"):"+node.heuristic(board, point, 2));
 			}
 			System.out.println();
