@@ -98,7 +98,7 @@ public class ControllerGamePlayer implements Initializable {
 							public void run() {
 								
 								ControllerGamePlayer.this.clock.setText("" + ((ControllerGamePlayer.this.clockTime-=timeDelay)/1000));
-								ControllerGamePlayer.this.changeTarget(ControllerGamePlayer.this.subSceneBoard.getTurn());
+								
 //								System.out.println(ControllerGamePlayer.this.subSceneBoard.getTurn());
 //								System.out.println("change");
 							}

@@ -108,13 +108,13 @@ public class SubSceneBoard {
 	int countOther=0;
 	public int turnListen=0;
 	public void addListenerMouseClickForOnePeople() {
-		if(this.th!=null&&this.th.isAlive()){return;}
+		
 		group.setPickOnBounds(true);
 		removeAllListenerMouseClick();
 		EventHandler<MouseEvent> listenerMouseClickForOnePeople = new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
-				
+				if(SubSceneBoard.this.th!=null&&SubSceneBoard.this.th.isAlive())return;
 				double x = e.getSceneX() - ConfigGame.DRAW
 						- SubSceneBoard.this.subScene.getLocalToSceneTransform().getTx();
 				double y = e.getSceneY() - ConfigGame.DRAW
@@ -141,6 +141,15 @@ public class SubSceneBoard {
 							SubSceneBoard.this.paint(group, row_index, col_index, ConfigGame.PLAYER_TARGET);
 
 						}
+						Platform.runLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								SubSceneBoard.this.controller.changeTarget(SubSceneBoard.this.getTurn());
+								
+							}
+						});
+						
 
 					}
 
@@ -195,7 +204,14 @@ public class SubSceneBoard {
 
 						}
 						controller.clockTime = ConfigGame.TIME_TURN;
-
+						Platform.runLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								SubSceneBoard.this.controller.changeTarget(SubSceneBoard.this.getTurn());
+								
+							}
+						});
 						SubSceneBoard.this.count++;
 					}
 				});
