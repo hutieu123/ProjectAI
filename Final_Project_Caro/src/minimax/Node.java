@@ -135,8 +135,8 @@ public class Node {
 		
 		int row, col;
 		int ePC, eHuman;
-		ConfigGame.Target justTarget =ConfigGame.Target.X;
-		ConfigGame.Target nextTarget = ConfigGame.Target.O;
+		ConfigGame.Target justTarget =ConfigGame.COMPUTER_TARGET;
+		ConfigGame.Target nextTarget = ConfigGame.PLAYER_TARGET;
 		// Duyet theo hang
 		for (row = 0; row < cBoard.matrix.length; row++)
 			for (col = 0; col < cBoard.matrix[row].length - 4; col++) {

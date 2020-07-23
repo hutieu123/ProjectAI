@@ -33,12 +33,12 @@ public class Minimax implements Agent{
 					//Cut
 					
 					
-					return v;
+					return node.value=v;
 				}
 				alpha = Math.max(alpha, v);
 			}
 			
-			return v;
+			return node.value=v;
 		}else{
 			int bestVal = Integer.MAX_VALUE;
 			for (Node i : listNeighbours) {
@@ -51,12 +51,12 @@ public class Minimax implements Agent{
 				if (bestVal <= alpha || i.getStateBoard().isOver()) {
 					//node.value=bestVal;
 					//Cut
-					return bestVal;
+					return node.value=bestVal;
 				}
 				beta = Math.min(beta, bestVal);
 			}
 //			node.value=bestVal;
-			return bestVal;
+			return node.value=bestVal;
 		}
 	}
 	public int alpha_beta(Board state, int alpha, int beta, int depth, ConfigGame.Target target) {
