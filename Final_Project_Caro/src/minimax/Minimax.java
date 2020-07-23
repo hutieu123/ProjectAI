@@ -10,26 +10,28 @@ import model.Board;
 import project.caro.config.ConfigGame;
 
 public class Minimax implements Agent{
-	private Node lastNode;
+	
 	private int depth;
 	public Minimax(int depth){
-		this.lastNode = null;
+		
 		this.depth=depth;
 	}
 	public int minimax(Node node,  int alpha, int beta, int depth, boolean isMaxPlayer) {
-		List<Node> listNeighbours = node.getNeighbours();
 		if (depth == 0 || node.getStateBoard().isOver()) {
 			return node.getStateBoard().getHeuristic();
 		}
+		List<Node> listNeighbours = node.initAddNeighbours();
 		if(isMaxPlayer){
 			int bestVal = Integer.MIN_VALUE;
 			for (Node i : listNeighbours) {
 				int value = minimax(i, alpha, beta, depth-1, false);
 				if(bestVal < value){
 					bestVal = value;
-					setLastNode(i);
+					node.getStateBoard().setHeuristic(bestVal);
+					
 				}
 				if (bestVal >= beta || i.getStateBoard().isOver()) {
+					node.getStateBoard().setHeuristic(bestVal);
 					return bestVal;
 				}
 				alpha = Math.max(alpha, bestVal);
@@ -41,9 +43,11 @@ public class Minimax implements Agent{
 				int value = minimax(i, alpha, beta, depth-1, true);
 				if(bestVal > value){
 					bestVal = value;
-					setLastNode(i);
+					node.getStateBoard().setHeuristic(bestVal);
+					
 				}
 				if (bestVal <= alpha || i.getStateBoard().isOver()) {
+					node.getStateBoard().setHeuristic(bestVal);
 					return bestVal;
 				}
 				beta = Math.min(beta, bestVal);
@@ -53,43 +57,33 @@ public class Minimax implements Agent{
 	}
 	public int alpha_beta(Board state, int alpha, int beta, int depth, ConfigGame.Target target) {
 		int result = 0;
-		
-		ConfigGame.Target nextPlayer;
-		if(target == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
-		else nextPlayer = ConfigGame.Target.O;
-		
-		Node node = new Node(state, nextPlayer);
-		
+		this.initial=new Node(state, target);
 		if (target == ConfigGame.COMPUTER_TARGET) {
-			result = minimax(node, alpha, beta, depth, true);
+			result = minimax(this.initial, alpha, beta, depth, true);
 		}else{
-			result = minimax(node, alpha, beta, depth, false);
+			result = minimax(this.initial, alpha, beta, depth, false);
 		}
 		return result;
 	}
+	Node initial;
 	public int[] findBestMove(Board initial, ConfigGame.Target target) {
 		int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
 		int bestVal = alpha_beta(initial,alpha, beta, this.depth,target);
-		ConfigGame.Target nextPlayer;
-		if(target == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
-		else nextPlayer = ConfigGame.Target.O;
-		
-		Node node = new Node(initial, nextPlayer);
-		node.getNeighbours();
+		this.initial.getNeighbours();
 		Location p = null;
-		for (Node n : node.getMapPoints().keySet()) {
-			if(n.getStateBoard().getHeuristic() == bestVal)
-				p = node.getMapPoints().get(n);
+		int countCanHitEqualScore=0;
+		for (Node n : this.initial.getMapPoints().keySet()) {
+			if(n.getStateBoard().getHeuristic() == bestVal) {
+				p = this.initial.getMapPoints().get(n);
+				countCanHitEqualScore++;
+			}
 		} 
+		if(countCanHitEqualScore>1) {
+			System.out.println("Can hit "+countCanHitEqualScore+" location");
+		}
 		int[] result = {p.row,p.col};
+		System.out.println("Best value: "+bestVal);
 		return result;
-	}
-	
-	public Node getLastNode() {
-		return lastNode;
-	}
-	public void setLastNode(Node lastNode) {
-		this.lastNode = lastNode;
 	}
 	
 

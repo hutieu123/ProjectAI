@@ -34,7 +34,7 @@ public class Test {
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 15; j++) {
 				Location point = new Location(i,j);
-				System.out.print("  ("+i+","+j+"):"+node.heuristic(board, point, 2));
+				System.out.print("  ("+i+","+j+"):"+node.heuristic(board, point));
 			}
 			System.out.println();
 		}
@@ -55,7 +55,7 @@ public class Test {
 //		}System.out.println(count+":"+(15*15-2));
 	
 		Minimax mim = new Minimax(0);//kiem tra minimax va ham findBestMove
-		node.getNeighbours();
+		node.initAddNeighbours();
 		System.out.println(mim.minimax(node,-99999999,999999999, 1, true));
 		int e[] = mim.findBestMove(board, ConfigGame.COMPUTER_TARGET);
 		System.out.println(e[0]+","+e[1]);
