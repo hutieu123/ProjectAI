@@ -11,15 +11,9 @@ public class Board {
 	 */
 	public int numWin;
 	public int[][] matrix;
-	int heuristic;
+	
 
-	public int getHeuristic() {
-		return heuristic;
-	}
-
-	public void setHeuristic(int heuristic) {
-		this.heuristic = heuristic;
-	}
+	
 
 	public Agent getAgent() {
 		return agent;
@@ -40,7 +34,7 @@ public class Board {
 				this.matrix[i][j] = -1;
 			}
 		}
-		this.heuristic = 0;
+		
 	}
 
 	public boolean isValid(int rowIndex, int colIndex) {
@@ -313,6 +307,15 @@ public class Board {
 		}
 		
 		return ConfigGame.StatusMinimax.NOT_OVER;
+	}
+	public void printMatrix() {
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix[i].length; j++) {
+				System.out.print(matrix[i][j]+"\t");
+			}
+			System.out.println();
+		}
+
 	}
 	
 

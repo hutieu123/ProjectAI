@@ -7,26 +7,41 @@ import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
 
 public class Node {
+	public int alpha = Integer.MIN_VALUE;
+	public int beta = Integer.MAX_VALUE;
 	private Board stateBoard;
 	private List<Node> neighbours;
-	private ConfigGame.Target player;
-	private Board scoreBoard;
+	private ConfigGame.Target nextTarget;
+	
 	private Node parent;
 
-	private List<Location> listPointCanHit = new ArrayList<>();
 	private static Random rd = new Random();
-	private Map<Node, Location> mapPoints;
 	
+	private Location justHit;
+	public int value;
+	public Location getJustHit() {
+		return justHit;
+	}
+	public void setJustHit(Location justHit) {
+		this.justHit = justHit;
+	}
+
+
 	private static int[] AScore = { 0, 4, 27, 256, 1458 };
 	private static int[] DScore = { 0, 2, 19, 99, 769 };
 
-	public Node(Board stateBoard, Target player) {
+	public Node(Board stateBoard, Target nextTarget) {
 		this.stateBoard = stateBoard;
 		this.neighbours = new ArrayList<Node>();
-		this.player = player;
-		this.mapPoints = new HashMap<>();
-		this.scoreBoard = scoreBoard();
+		this.nextTarget = nextTarget;
 		this.parent = null;
+	}
+	public Node(Target player, Location justHit) {
+		this.neighbours = new ArrayList<Node>();
+		this.nextTarget = player;
+		
+		this.parent = null;
+		this.justHit=justHit;
 	}
 
 
@@ -41,19 +56,29 @@ public class Node {
 
 
 	public Board getStateBoard() {
-		return stateBoard;
+		Node tmp =this;
+		Map<Location, ConfigGame.Target> map = new HashMap<Location, ConfigGame.Target>();
+		while(tmp.stateBoard==null) {
+			map.put(tmp.justHit, tmp.getTargetJustHit());
+			tmp=tmp.parent;
+		}
+		Board tmpBoard=tmp.stateBoard.clone();
+		for(Location key:map.keySet()) {
+			tmpBoard.matrix[key.row][key.col]= map.get(key).VALUE;
+		}
+		return tmpBoard;
 	}
 
-	public void setStateBoard(Board stateBoard) {
-		this.stateBoard = stateBoard;
+	public ConfigGame.Target getNextTarget() {
+		return nextTarget;
 	}
-
-	public ConfigGame.Target getPlayer() {
-		return player;
+	public ConfigGame.Target getTargetJustHit() {
+		if(getNextTarget()==ConfigGame.Target.O)return ConfigGame.Target.X;
+		return ConfigGame.Target.O;
 	}
 
 	public void setPlayer(ConfigGame.Target player) {
-		this.player = player;
+		this.nextTarget = player;
 	}
 
 	public void setNeighbours(List<Node> neighbours) {
@@ -64,18 +89,26 @@ public class Node {
 		this.neighbours.add(neighbourNode);
 	}
 
-	public int heuristic(Board board, Location point) {
-		return scoreBoard.matrix[point.row][point.col];
+	public int heuristic() {
+		if(this.justHit==null) {
+//			System.out.println("?");
+			return 0;
+		}
+		Board board=this.scoreBoard();
+//		System.out.println( board.matrix[justHit.row][justHit.col]);
+		return  board.matrix[justHit.row][justHit.col];
 	}
 	public List<Node> getNeighbours() {
 		return this.neighbours;
 		
 	}
 	public List<Node> initAddNeighbours() {
+		List<Location> listPointCanHit = new ArrayList<>();
 		// tao danh sach cac o trong
-		for (int i = 0; i < stateBoard.matrix.length; i++) {
-			for (int j = 0; j < stateBoard.matrix[0].length; j++) {
-				if (stateBoard.matrix[i][j] == -1) {
+		Board board =this.getStateBoard();
+		for (int i = 0; i < board.matrix.length; i++) {
+			for (int j = 0; j < board.matrix[0].length; j++) {
+				if (board.matrix[i][j] == -1) {
 					Location p = new Location(i, j);
 					listPointCanHit.add(p);
 				}
@@ -86,51 +119,46 @@ public class Node {
 			// chon ngau nhien o con trong
 			int index = rd.nextInt(listPointCanHit.size());
 			Location p = listPointCanHit.get(index);
-			ConfigGame.Target nextPlayer;
-			
-			if(player == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
-			else nextPlayer = ConfigGame.Target.O;
-			
-			int heuristic = this.heuristic(stateBoard, p);// tim heuristic
-			Board newState = stateBoard.move(p.row, p.col, nextPlayer);// tao trang thai moi
-			
-			newState.setHeuristic(heuristic);
-			Node node = new Node(newState, nextPlayer);
+			Node node = new Node(getTargetJustHit(), p);
 			node.setParent(this);
 			this.addNeighbour(node);// them vao danh sach con
-			this.getMapPoints().put(node, p);
+			
 			listPointCanHit.remove(index);
 			}
-		return neighbours;
+		return this.neighbours;
 
 	}
 	public Board scoreBoard(){
-		Board cBoard = this.getStateBoard().empty();
+		Board stateBoard = this.getStateBoard();
+		stateBoard.matrix[justHit.row][justHit.col]=-1;
+		Board cBoard =stateBoard.empty();
 		
 		int row, col;
 		int ePC, eHuman;
+		ConfigGame.Target justTarget =ConfigGame.Target.X;
+		ConfigGame.Target nextTarget = ConfigGame.Target.O;
 		// Duyet theo hang
 		for (row = 0; row < cBoard.matrix.length; row++)
 			for (col = 0; col < cBoard.matrix[row].length - 4; col++) {
 				ePC = 0;
 				eHuman = 0;
 				for (int i = 0; i < 5; i++) {
-					if (this.getStateBoard().matrix[row][col + i] == ConfigGame.PLAYER_TARGET.VALUE) // neu quan do la cua human
+					if (stateBoard.matrix[row][col + i] == nextTarget.VALUE) // neu quan do la cua human
 						eHuman++;
-					if (this.getStateBoard().matrix[row][col + i] ==ConfigGame.COMPUTER_TARGET.VALUE) // neu quan do la cua pc
+					if (stateBoard.matrix[row][col + i] ==justTarget.VALUE) // neu quan do la cua pc
 						ePC++;
 				}
 				// trong vong 5 o khong co quan dich
 				if (eHuman * ePC == 0 && eHuman != ePC)
 					for (int i = 0; i < 5; i++) {
-						if (this.getStateBoard().matrix[row][col + i] == -1) { // neu o chua danh
+						if (stateBoard.matrix[row][col + i] == -1) { // neu o chua danh
 							if (eHuman == 0) // ePC khac 0
-								if (this.getPlayer().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
 									cBoard.matrix[row][col + i] += DScore[ePC]; // cho diem phong ngu
 								else
 									cBoard.matrix[row][col + i] += AScore[ePC];// cho diem tan cong
 							if (ePC == 0) // eHuman khac 0
-								if (this.getPlayer().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
 									cBoard.matrix[row][col + i] += DScore[eHuman];// cho diem phong ngu	
 								else
 									cBoard.matrix[row][col + i] += AScore[eHuman];// cho diem tan cong
@@ -146,22 +174,22 @@ public class Node {
 				ePC = 0;
 				eHuman = 0;
 				for (int i = 0; i < 5; i++) {
-					if (this.getStateBoard().matrix[row + i][col ] == ConfigGame.PLAYER_TARGET.VALUE)
+					if (stateBoard.matrix[row + i][col ] == nextTarget.VALUE)
 						eHuman++;
-					if (this.getStateBoard().matrix[row + i][col ] == ConfigGame.COMPUTER_TARGET.VALUE)
+					if (stateBoard.matrix[row + i][col ] == justTarget.VALUE)
 						ePC++;
 				}
 				if (eHuman * ePC == 0 && eHuman != ePC)
 					for (int i = 0; i < 5; i++) {
-						if (this.getStateBoard().matrix[row + i][col ] == -1) // Neu o chua duoc danh
+						if (stateBoard.matrix[row + i][col ] == -1) // Neu o chua duoc danh
 						{
 							if (eHuman == 0)
-								if (this.getPlayer().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
 									cBoard.matrix[row + i][col] += DScore[ePC];
 								else
 									cBoard.matrix[row + i][col] += AScore[ePC];
 							if (ePC == 0)
-								if (this.getPlayer().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
 									cBoard.matrix[row + i][col] += DScore[eHuman];
 								else
 									cBoard.matrix[row + i][col] += AScore[eHuman];
@@ -178,22 +206,22 @@ public class Node {
 				ePC = 0;
 				eHuman = 0;
 				for (int i = 0; i < 5; i++) {
-					if (this.getStateBoard().matrix[row + i][col + i] == ConfigGame.PLAYER_TARGET.VALUE)
+					if (stateBoard.matrix[row + i][col + i] == nextTarget.VALUE)
 						eHuman++;
-					if (this.getStateBoard().matrix[row + i][col + i] == ConfigGame.COMPUTER_TARGET.VALUE)
+					if (stateBoard.matrix[row + i][col + i] == justTarget.VALUE)
 						ePC++;
 				}
 				if (eHuman * ePC == 0 && eHuman != ePC)
 					for (int i = 0; i < 5; i++) {
-						if (this.getStateBoard().matrix[row + i][col + i] == -1) // Neu o chua duoc danh
+						if (stateBoard.matrix[row + i][col + i] == -1) // Neu o chua duoc danh
 						{
 							if (eHuman == 0)
-								if (this.getPlayer().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
 									cBoard.matrix[row + i][col + i] += DScore[ePC];
 								else
 									cBoard.matrix[row + i][col + i] += AScore[ePC];
 							if (ePC == 0)
-								if (this.getPlayer().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
 									cBoard.matrix[row + i][col + i] += DScore[eHuman];
 								else
 									cBoard.matrix[row + i][col + i] += AScore[eHuman];
@@ -210,21 +238,21 @@ public class Node {
 				ePC = 0; // so quan PC
 				eHuman = 0; // so quan Human
 				for (int i = 0; i < 5; i++) {
-					if (this.getStateBoard().matrix[row - i][col + i] == ConfigGame.PLAYER_TARGET.VALUE) // neu la human
+					if (stateBoard.matrix[row - i][col + i] == nextTarget.VALUE) // neu la human
 						eHuman++; // tang so quan human
-					if (this.getStateBoard().matrix[row - i][col + i] == ConfigGame.COMPUTER_TARGET.VALUE) // neu la PC
+					if (stateBoard.matrix[row - i][col + i] == justTarget.VALUE) // neu la PC
 						ePC++; // tang so quan PC
 				}
 				if (eHuman * ePC == 0 && eHuman != ePC)
 					for (int i = 0; i < 5; i++) {
-						if (this.getStateBoard().matrix[row - i][col + i] == -1) { // neu o chua duoc danh
+						if (stateBoard.matrix[row - i][col + i] == -1) { // neu o chua duoc danh
 							if (eHuman == 0)
-								if (this.getPlayer().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.PLAYER_TARGET.VALUE)
 									cBoard.matrix[row - i][col + i] += DScore[ePC];
 								else
 									cBoard.matrix[row - i][col + i] += AScore[ePC];
 							if (ePC == 0)
-								if (this.getPlayer().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
+								if (this.getNextTarget().VALUE == ConfigGame.COMPUTER_TARGET.VALUE)
 									cBoard.matrix[row - i][col + i] += DScore[eHuman];
 								else
 									cBoard.matrix[row - i][col + i] += AScore[eHuman];
@@ -236,12 +264,18 @@ public class Node {
 			}
 
 /////////////////////////////////////////////////////////////////////////	
+//		if(getTargetTurnLateHit()!=ConfigGame.PLAYER_TARGET) {
+//			int hp = this.parent.getStateBoard().getHeuristic()+2000;
+//			for (int i = 0; i < this.scoreBoard.matrix.length; i++) {
+//				for (int j = 0; j < this.scoreBoard.matrix[i].length; j++) {
+//					this.scoreBoard.matrix[i][j]=-this.scoreBoard.matrix[i][j];
+//				}
+//			}
+//		}
+		//cBoard.printMatrix();
 		return cBoard;
 	}
 
 
-	public Map<Node, Location> getMapPoints() {
-		return mapPoints;
-	}
-
+	
 }

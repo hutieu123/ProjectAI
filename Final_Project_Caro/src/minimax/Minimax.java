@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import minimax.v4_heuristic_notalpha.*;
 import model.Agent;
 import model.Board;
 import project.caro.config.ConfigGame;
@@ -18,40 +17,45 @@ public class Minimax implements Agent{
 	}
 	public int minimax(Node node,  int alpha, int beta, int depth, boolean isMaxPlayer) {
 		if (depth == 0 || node.getStateBoard().isOver()) {
-			return node.getStateBoard().getHeuristic();
+			return node.value=node.heuristic();
 		}
 		List<Node> listNeighbours = node.initAddNeighbours();
 		if(isMaxPlayer){
-			int bestVal = Integer.MIN_VALUE;
+			int v = Integer.MIN_VALUE;
 			for (Node i : listNeighbours) {
 				int value = minimax(i, alpha, beta, depth-1, false);
-				if(bestVal < value){
-					bestVal = value;
-					node.getStateBoard().setHeuristic(bestVal);
+				if(v < value){
+					v = value;
+					
 					
 				}
-				if (bestVal >= beta || i.getStateBoard().isOver()) {
-					node.getStateBoard().setHeuristic(bestVal);
-					return bestVal;
+				if (v >= beta || i.getStateBoard().isOver()) {
+					//Cut
+					
+					
+					return v;
 				}
-				alpha = Math.max(alpha, bestVal);
+				alpha = Math.max(alpha, v);
 			}
-			return bestVal;
+			
+			return v;
 		}else{
 			int bestVal = Integer.MAX_VALUE;
 			for (Node i : listNeighbours) {
 				int value = minimax(i, alpha, beta, depth-1, true);
 				if(bestVal > value){
 					bestVal = value;
-					node.getStateBoard().setHeuristic(bestVal);
+					
 					
 				}
 				if (bestVal <= alpha || i.getStateBoard().isOver()) {
-					node.getStateBoard().setHeuristic(bestVal);
+					//node.value=bestVal;
+					//Cut
 					return bestVal;
 				}
 				beta = Math.min(beta, bestVal);
 			}
+//			node.value=bestVal;
 			return bestVal;
 		}
 	}
@@ -72,9 +76,9 @@ public class Minimax implements Agent{
 		this.initial.getNeighbours();
 		Location p = null;
 		int countCanHitEqualScore=0;
-		for (Node n : this.initial.getMapPoints().keySet()) {
-			if(n.getStateBoard().getHeuristic() == bestVal) {
-				p = this.initial.getMapPoints().get(n);
+		for (Node n : this.initial.getNeighbours()) {
+			if(n.value == bestVal) {
+				p = n.getJustHit();
 				countCanHitEqualScore++;
 			}
 		} 
