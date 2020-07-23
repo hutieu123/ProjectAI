@@ -181,6 +181,7 @@ public class SubSceneBoard {
 							Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1],
 									ConfigGame.COMPUTER_TARGET);
 							if (boardTry != null) {
+								SubSceneBoard.this.setBoard(boardTry);
 								Platform.runLater(new Runnable() {
 
 									@Override

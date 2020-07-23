@@ -2,6 +2,7 @@ package minimax;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import minimax.v4_heuristic_notalpha.*;
@@ -82,6 +83,7 @@ public class Minimax implements Agent{
 				p = node.getMapPoints().get(n);
 		} 
 		int[] result = {p.row,p.col};
+		System.out.println(Arrays.toString(result));
 		return result;
 	}
 	
