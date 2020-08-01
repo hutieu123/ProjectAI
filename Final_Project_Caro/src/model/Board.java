@@ -89,27 +89,23 @@ public class Board {
 	public int count(int[][] matrix, int[] location, int limitBottomNumInLine) {
 		int rs = 1;
 		int count = 1;
-		final int loacation_row = location[0];
-		final int loacation_col = location[1];
-		// Đếm theo hàng ngang
-		if(matrix[loacation_row][loacation_col]==-1) {
+		final int location_row = location[0];
+		final int location_col = location[1];
+		if(matrix[location_row][location_col]==-1) {
 			return 0;
 		}
-//		if(ConfigGame.Target.NOT_THING.VALUE.equals(Integer.valueOf(matrix[loacation_row][loacation_col]))) {
-//			return -1;
-//		}
-		//System.out.println(location[0]);
-		for (int i = loacation_col + 1; i < matrix[loacation_row].length; i++) {
-			if (matrix[loacation_row][loacation_col] == matrix[loacation_row][i]) {
+		// Đếm theo hàng ngang
+		for (int i = location_col + 1; i < matrix[location_row].length; i++) {
+			if (matrix[location_row][location_col] == matrix[location_row][i]) {
 				count++;
 				if (count == limitBottomNumInLine) {
 //					System.out.println(!checkCorrect(loacation_row, i + 1));
-					if (!checkCorrect(loacation_row, loacation_col + 1 - 2) || !checkCorrect(loacation_row, i + 1)
-							|| matrix[loacation_row][loacation_col - 1] == -1 || matrix[loacation_row][i + 1] == -1) {
+					if (!checkCorrect(location_row, location_col + 1 - 2) || !checkCorrect(location_row, i + 1)
+							|| matrix[location_row][location_col - 1] == -1 || matrix[location_row][i + 1] == -1) {
 
 					} else {
-						if (matrix[loacation_row][loacation_col] != matrix[loacation_row][loacation_col - 1]
-								&& matrix[loacation_row][loacation_col] != matrix[loacation_row][i + 1]) {
+						if (matrix[location_row][location_col] != matrix[location_row][location_col - 1]
+								&& matrix[location_row][location_col] != matrix[location_row][i + 1]) {
 							break;
 						}
 
@@ -126,17 +122,17 @@ public class Board {
 		}
 		count = 1;
 		// Đếm theo hàng dọc
-		for (int i = loacation_row + 1; i < matrix.length; i++) {
-			if (matrix[loacation_row][loacation_col] == matrix[i][loacation_col]) {
+		for (int i = location_row + 1; i < matrix.length; i++) {
+			if (matrix[location_row][location_col] == matrix[i][location_col]) {
 				count++;
 				if (count == limitBottomNumInLine) {
-					if (!checkCorrect(loacation_row + 1 + (-2), loacation_col) || !checkCorrect(i + 1, loacation_col)
-							|| matrix[loacation_row + 1 + (-2)][loacation_col] == -1
-							|| matrix[i + 1][loacation_col] == -1) {
+					if (!checkCorrect(location_row + 1 + (-2), location_col) || !checkCorrect(i + 1, location_col)
+							|| matrix[location_row + 1 + (-2)][location_col] == -1
+							|| matrix[i + 1][location_col] == -1) {
 
 					} else {
-						if (matrix[loacation_row][loacation_col] != matrix[loacation_row + 1 + (-2)][loacation_col]
-								&& matrix[loacation_row][loacation_col] != matrix[i + 1][loacation_col]) {
+						if (matrix[location_row][location_col] != matrix[location_row + 1 + (-2)][location_col]
+								&& matrix[location_row][location_col] != matrix[i + 1][location_col]) {
 							break;
 						}
 
@@ -152,19 +148,19 @@ public class Board {
 		}
 		count = 1;
 		// Đếm theo đường chéo ngược
-		for (int i = 1; i < matrix.length - loacation_col && i < matrix.length - loacation_row; i++) {
-			if (matrix[loacation_row][loacation_col] == matrix[loacation_row + i][loacation_col + i]) {
+		for (int i = 1; i < matrix.length - location_col && i < matrix.length - location_row; i++) {
+			if (matrix[location_row][location_col] == matrix[location_row + i][location_col + i]) {
 
 				count++;
 				if (count == limitBottomNumInLine) {
-					if (!checkCorrect(loacation_row + (-1), loacation_col + (-1))
-							|| !checkCorrect(loacation_row + (i + 1), loacation_col + (i + 1))
-							|| matrix[loacation_row + (-1)][loacation_col + (-1)] == -1
-							|| matrix[loacation_row + (i + 1)][loacation_col + (i + 1)] == -1) {
+					if (!checkCorrect(location_row + (-1), location_col + (-1))
+							|| !checkCorrect(location_row + (i + 1), location_col + (i + 1))
+							|| matrix[location_row + (-1)][location_col + (-1)] == -1
+							|| matrix[location_row + (i + 1)][location_col + (i + 1)] == -1) {
 
 					} else {
-						if (matrix[loacation_row][loacation_col] != matrix[loacation_row + (-1)][loacation_col + (-1)]
-								&& matrix[loacation_row][loacation_col] != matrix[loacation_row + (i + 1)][loacation_col
+						if (matrix[location_row][location_col] != matrix[location_row + (-1)][location_col + (-1)]
+								&& matrix[location_row][location_col] != matrix[location_row + (i + 1)][location_col
 										+ (i + 1)]) {
 							break;
 						}
@@ -180,22 +176,22 @@ public class Board {
 		}
 		count = 1;
 		// Đếm theo chéo thuận
-		for (int i = 1; i < matrix.length - loacation_col; i++) {
-			if (!checkCorrect(loacation_row - i, loacation_col + i)) {
+		for (int i = 1; i < matrix.length - location_col; i++) {
+			if (!checkCorrect(location_row - i, location_col + i)) {
 
 				break;
 			}
-			if (matrix[loacation_row][loacation_col] == matrix[loacation_row - i][loacation_col + i]) {
+			if (matrix[location_row][location_col] == matrix[location_row - i][location_col + i]) {
 				count++;
 				if (count == limitBottomNumInLine) {
-					if (!checkCorrect(loacation_row + 1, loacation_col - 1)
-							|| !checkCorrect(loacation_row - (i + 1), loacation_col + (i + 1))
-							|| matrix[loacation_row + 1][loacation_col - 1] == -1
-							|| matrix[loacation_row - (i + 1)][loacation_col + (i + 1)] == -1) {
+					if (!checkCorrect(location_row + 1, location_col - 1)
+							|| !checkCorrect(location_row - (i + 1), location_col + (i + 1))
+							|| matrix[location_row + 1][location_col - 1] == -1
+							|| matrix[location_row - (i + 1)][location_col + (i + 1)] == -1) {
 
 					} else {
-						if (matrix[loacation_row][loacation_col] != matrix[loacation_row + (-1)][loacation_col - (-1)]
-								&& matrix[loacation_row][loacation_col] != matrix[loacation_row + (i + 1)][loacation_col
+						if (matrix[location_row][location_col] != matrix[location_row + (-1)][location_col - (-1)]
+								&& matrix[location_row][location_col] != matrix[location_row + (i + 1)][location_col
 										- (i + 1)]) {
 							break;
 						}

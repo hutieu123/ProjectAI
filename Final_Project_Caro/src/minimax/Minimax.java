@@ -4,29 +4,29 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import heuristic.AHeuristic;
+import heuristic.Heuristic;
 import model.Agent;
 import model.Board;
 import project.caro.config.ConfigGame;
 
 public class Minimax implements Agent{
-	
+	private AHeuristic heuristic;
 	private int depth;
 	public Minimax(int depth){
-		
 		this.depth=depth;
 	}
-	public int minimax(Node node,  int alpha, int beta, int depth, boolean isMaxPlayer) {
+	public long minimax(Node node,  long alpha, long beta, int depth, boolean isMaxPlayer, ConfigGame.Target target) {
 		if (depth == 0 || node.getStateBoard().isOver()) {
-			return node.value=node.heuristic();
+			return node.value=new Heuristic(node.getStateBoard(), target).heuristic();
 		}
 		List<Node> listNeighbours = node.initAddNeighbours();
 		if(isMaxPlayer){
-			int v = Integer.MIN_VALUE;
+			long v = Long.MIN_VALUE;
 			for (Node i : listNeighbours) {
-				int value = minimax(i, alpha, beta, depth-1, false);
+				long value = minimax(i, alpha, beta, depth-1, false, target);
 				if(v < value){
 					v = value;
-					
 					
 				}
 				if (v >= beta || i.getStateBoard().isOver()) {
@@ -40,9 +40,9 @@ public class Minimax implements Agent{
 			
 			return node.value=v;
 		}else{
-			int bestVal = Integer.MAX_VALUE;
+			long bestVal = Long.MAX_VALUE;
 			for (Node i : listNeighbours) {
-				int value = minimax(i, alpha, beta, depth-1, true);
+				long value = minimax(i, alpha, beta, depth-1, true, target);
 				if(bestVal > value){
 					bestVal = value;
 					
@@ -59,20 +59,20 @@ public class Minimax implements Agent{
 			return node.value=bestVal;
 		}
 	}
-	public int alpha_beta(Board state, int alpha, int beta, int depth, ConfigGame.Target target) {
-		int result = 0;
+	public long alpha_beta(Board state, long alpha, long beta, int depth, ConfigGame.Target target) {
+		long result = 0;
 		this.initial=new Node(state, target);
 		if (target == ConfigGame.COMPUTER_TARGET) {
-			result = minimax(this.initial, alpha, beta, depth, true);
+			result = minimax(this.initial, alpha, beta, depth, true, target);
 		}else{
-			result = minimax(this.initial, alpha, beta, depth, false);
+			result = minimax(this.initial, alpha, beta, depth, false, target);
 		}
 		return result;
 	}
 	Node initial;
 	public int[] findBestMove(Board initial, ConfigGame.Target target) {
-		int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
-		int bestVal = alpha_beta(initial,alpha, beta, this.depth,target);
+		long alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
+		long bestVal = alpha_beta(initial,alpha, beta, this.depth,target);
 		this.initial.getNeighbours();
 		Location p = null;
 		int countCanHitEqualScore=0;
