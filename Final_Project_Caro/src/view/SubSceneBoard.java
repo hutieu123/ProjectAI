@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import minimax.v4_heuristic_notalpha.minimax;
 import model.Agent;
 import model.Board;
 import project.caro.config.ConfigGame;
@@ -178,9 +177,11 @@ public class SubSceneBoard {
 						long la = System.currentTimeMillis();
 						System.out.println(((la - lb) / 1000)+" s");
 						if (location != null) {
+//							System.out.println(location[0]+":"+location[1]);
 							Board boardTry = SubSceneBoard.this.getBoard().move(location[0], location[1],
 									ConfigGame.COMPUTER_TARGET);
 							if (boardTry != null) {
+								SubSceneBoard.this.board=boardTry;
 								Platform.runLater(new Runnable() {
 
 									@Override
@@ -191,6 +192,8 @@ public class SubSceneBoard {
 								
 
 							}
+						}else {
+							System.out.println("Minimax not found");
 						}
 
 						ConfigGame.Status status = SubSceneBoard.this.getBoard()

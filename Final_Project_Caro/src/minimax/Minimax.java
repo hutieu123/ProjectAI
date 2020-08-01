@@ -1,95 +1,91 @@
 package minimax;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-
-import minimax.v4_heuristic_notalpha.*;
+import heuristic.AHeuristic;
+import heuristic.Heuristic;
 import model.Agent;
 import model.Board;
 import project.caro.config.ConfigGame;
 
 public class Minimax implements Agent{
-	private Node lastNode;
+	private AHeuristic heuristic;
 	private int depth;
 	public Minimax(int depth){
-		this.lastNode = null;
 		this.depth=depth;
 	}
-	public int minimax(Node node,  int alpha, int beta, int depth, boolean isMaxPlayer) {
-		List<Node> listNeighbours = node.getNeighbours();
+	public long minimax(Node node,  long alpha, long beta, int depth, boolean isMaxPlayer, ConfigGame.Target target) {
 		if (depth == 0 || node.getStateBoard().isOver()) {
-			return node.getStateBoard().getHeuristic();
+			return node.value=new Heuristic(node.getStateBoard(), target).heuristic();
 		}
+		List<Node> listNeighbours = node.initAddNeighbours();
 		if(isMaxPlayer){
-			int bestVal = Integer.MIN_VALUE;
+			long v = Long.MIN_VALUE;
 			for (Node i : listNeighbours) {
-				int value = minimax(i, alpha, beta, depth-1, false);
-				if(bestVal < value){
-					bestVal = value;
-					setLastNode(i);
+				long value = minimax(i, alpha, beta, depth-1, false, target);
+				if(v < value){
+					v = value;
+					
 				}
-				if (bestVal >= beta || i.getStateBoard().isOver()) {
-					return bestVal;
+				if (v >= beta || i.getStateBoard().isOver()) {
+					//Cut
+					
+					
+					return node.value=v;
 				}
-				alpha = Math.max(alpha, bestVal);
+				alpha = Math.max(alpha, v);
 			}
-			return bestVal;
+			
+			return node.value=v;
 		}else{
-			int bestVal = Integer.MAX_VALUE;
+			long bestVal = Long.MAX_VALUE;
 			for (Node i : listNeighbours) {
-				int value = minimax(i, alpha, beta, depth-1, true);
+				long value = minimax(i, alpha, beta, depth-1, true, target);
 				if(bestVal > value){
 					bestVal = value;
-					setLastNode(i);
+					
+					
 				}
 				if (bestVal <= alpha || i.getStateBoard().isOver()) {
-					return bestVal;
+					//node.value=bestVal;
+					//Cut
+					return node.value=bestVal;
 				}
 				beta = Math.min(beta, bestVal);
 			}
-			return bestVal;
+//			node.value=bestVal;
+			return node.value=bestVal;
 		}
 	}
-	public int alpha_beta(Board state, int alpha, int beta, int depth, ConfigGame.Target target) {
-		int result = 0;
-		
-		ConfigGame.Target nextPlayer;
-		if(target == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
-		else nextPlayer = ConfigGame.Target.O;
-		
-		Node node = new Node(state, nextPlayer);
-		
+	public long alpha_beta(Board state, long alpha, long beta, int depth, ConfigGame.Target target) {
+		long result = 0;
+		this.initial=new Node(state, target);
 		if (target == ConfigGame.COMPUTER_TARGET) {
-			result = minimax(node, alpha, beta, depth, true);
+			result = minimax(this.initial, alpha, beta, depth, true, target);
 		}else{
-			result = minimax(node, alpha, beta, depth, false);
+			result = minimax(this.initial, alpha, beta, depth, false, target);
 		}
 		return result;
 	}
+	Node initial;
 	public int[] findBestMove(Board initial, ConfigGame.Target target) {
-		int alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
-		int bestVal = alpha_beta(initial,alpha, beta, this.depth,target);
-		ConfigGame.Target nextPlayer;
-		if(target == ConfigGame.Target.O)nextPlayer = ConfigGame.Target.X;
-		else nextPlayer = ConfigGame.Target.O;
-		
-		Node node = new Node(initial, nextPlayer);
-		node.getNeighbours();
+		long alpha = Integer.MIN_VALUE, beta = Integer.MAX_VALUE;
+		long bestVal = alpha_beta(initial,alpha, beta, this.depth,target);
+		this.initial.getNeighbours();
 		Location p = null;
-		for (Node n : node.getMapPoints().keySet()) {
-			if(n.getStateBoard().getHeuristic() == bestVal)
-				p = node.getMapPoints().get(n);
+		int countCanHitEqualScore=0;
+		for (Node n : this.initial.getNeighbours()) {
+			if(n.value == bestVal) {
+				p = n.getJustHit();
+				countCanHitEqualScore++;
+			}
 		} 
+		if(countCanHitEqualScore>1) {
+			System.out.println("Can hit "+countCanHitEqualScore+" location");
+		}
 		int[] result = {p.row,p.col};
+		System.out.println("Best value: "+bestVal);
 		return result;
-	}
-	
-	public Node getLastNode() {
-		return lastNode;
-	}
-	public void setLastNode(Node lastNode) {
-		this.lastNode = lastNode;
 	}
 	
 

@@ -22,7 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import minimax.v4_heuristic_notalpha.*;
+import minimax.Node;
 import model.Board;
 import project.caro.config.ConfigGame;
 import project.caro.config.ConfigGame.Target;
