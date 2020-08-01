@@ -7,29 +7,26 @@ public abstract class AHeuristic {
 	public Board board;
 	public Target target;
 	public static int[][][][] ArrayScore = {
-			{//Cho chính mình
+			{//Cho máy
 				{//Cho dường thẳng
-					
-					{ 0, 4, 27, 256, 1458,0 },//Hai đầu đều không bị chặn
-					{ 0, 4, 27, 256, 1058,0 },//Bị chặn một đầu
-					{ 0, 4, 27, 256, 200,0 }//Bị chặn hai đầu
+					{ 0, 8, 250, 880, 1458,0 },//Hai đầu đều không bị chặn
+					{ 30, 4, 25, 580, 1058,0 },//Bị chặn một đầu
+					{ 0, 0, 0, 0, 1500,0 }//Bị chặn hai đầu
 					
 				},{//Cho đường chéo
-					{ 0, 4, 27, 256, 1458,0 },//Hai đầu đều không bị chặn
-					{ 0, 4, 27, 256, 1458,0 },//Bị chặn một đầu
-					{ 0, 4, 27, 256, 1458,0 }//Bị chặn hai đầu
+					{ 0, 4, 250, 880, 1458,0 },//Hai đầu đều không bị chặn
+					{ 30, 50, 25, 580, 1258,0 },//Bị chặn một đầu
+					{ 0, 0, 0, 0, 1500,0 }//Bị chặn hai đầu
 				}
 			},{//Tính điểm cho đối thủ
 				{//Cho dường thẳng
-					
-					{ 0, -3, -20, -200, -1200,0 },//Hai đầu đều không bị chặn
-					{ 15, 2, 15, 150, 1200,0 },//Bị chặn một đầu
-					{ 0, 4, 27, 256, 1458,0 }//Bị chặn hai đầu
-					
+					{ 0, -8, -300, -200, -1200,0 },//Hai đầu đều không bị chặn
+					{ 25, 50, 800, -1550, -3000,0 },//Bị chặn một đầu
+					{ 0, 0, 0, 95, 1458,0 }//Bị chặn hai đầu
 				},{//Cho đường chéo
-					{ 0, -4, -27, -256, -1458,0 },//Hai đầu đều không bị chặn
-					{ 0, 2, 15, 150, 1200,0 },//Bị chặn một đầu
-					{ 0, 4, 27, 256, 1458,0 }//Bị chặn hai đầu
+					{ 0, -4, -300, -1058, -1458,0 },//Hai đầu đều không bị chặn
+					{ 25, 50, 750, -1550, -2300, 0 },//Bị chặn một đầu
+					{ 0, 0, 0, 80, 1458, 0 }//Bị chặn hai đầu
 				}
 			}
 			};

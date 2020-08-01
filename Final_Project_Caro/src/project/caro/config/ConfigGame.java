@@ -12,7 +12,7 @@ public class ConfigGame {
 	
 	public static final int DRAW = 40;
 	public static final int TIME_OF_TURN = 30;
-	public static final int DEPTH =3;
+	public static final int DEPTH =1;
 	public static enum Mode{TWO_PEOPLE, AGAIN_COMPUTER} 
 	public static enum Target  {
 		X(1), O(2), NOT_THING(-1);
