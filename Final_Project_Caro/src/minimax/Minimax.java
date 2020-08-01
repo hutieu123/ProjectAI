@@ -1,6 +1,7 @@
 package minimax;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import heuristic.AHeuristic;
 import heuristic.Heuristic;
@@ -85,6 +86,7 @@ public class Minimax implements Agent{
 		}
 		int[] result = {p.row,p.col};
 		System.out.println("Best value: "+bestVal);
+		System.out.println(Arrays.toString(result));
 		return result;
 	}
 	
