@@ -11,8 +11,8 @@ public abstract class AHeuristic {
 				{//Cho dường thẳng
 					
 					{ 0, 4, 27, 256, 1458,0 },//Hai đầu đều không bị chặn
-					{ 0, 4, 27, 256, 1458,0 },//Bị chặn một đầu
-					{ 0, 4, 27, 256, 1458,0 }//Bị chặn hai đầu
+					{ 0, 4, 27, 256, 1058,0 },//Bị chặn một đầu
+					{ 0, 4, 27, 256, 200,0 }//Bị chặn hai đầu
 					
 				},{//Cho đường chéo
 					{ 0, 4, 27, 256, 1458,0 },//Hai đầu đều không bị chặn
